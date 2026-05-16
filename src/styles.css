@@ -1,3 +1,61 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+:root {
+  --gv-bg: #ffffff; /* page background */
+  --gv-surface: #ffffff; /* cards / surfaces */
+  --gv-border: #e6e9ef; /* subtle borders */
+  --gv-text: #0f1724; /* primary text */
+  --gv-muted: #6b7280; /* secondary text */
+  --gv-accent: #2563eb; /* accent (blue) */
+  --gv-accent-weak: #60a5fa;
+}
+
+.gv-bg {
+  background-color: var(--gv-bg) !important;
+}
+.gv-surface {
+  background-color: var(--gv-surface) !important;
+}
+.gv-border {
+  border-color: var(--gv-border) !important;
+}
+.gv-text {
+  color: var(--gv-text) !important;
+}
+.gv-muted {
+  color: var(--gv-muted) !important;
+}
+.gv-accent {
+  color: var(--gv-accent) !important;
+}
+.gv-accent-bg {
+  background-color: var(--gv-accent) !important;
+  color: white !important;
+}
+.gv-accent-weak-bg {
+  background-color: var(--gv-accent-weak) !important;
+  color: white !important;
+}
+.gv-shadow-soft {
+  box-shadow: 0 8px 24px rgba(15, 23, 36, 0.06);
+}
+
+/* small helpers */
+.gv-hover-surface:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--gv-muted);
+  opacity: 1;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--gv-accent);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06);
+  outline: none;
+}

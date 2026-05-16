@@ -1,0 +1,41 @@
+<section class="rounded-3xl border gv-border gv-surface p-4 gv-shadow-soft sm:p-6">
+  <div class="flex flex-col gap-4 border-b gv-border pb-6 xl:flex-row xl:items-center xl:justify-between">
+    <div>
+      <p class="text-xs font-medium uppercase tracking-[0.28em] gv-muted">Visão do jogador</p>
+      <h2 class="mt-3 text-2xl font-semibold tracking-tight gv-text">Overview geral</h2>
+      <p class="mt-2 max-w-2xl text-sm leading-6 gv-muted">Estrutura estática com abas visuais e seções separadas para status, personagens, batalhas, missões e aliados.</p>
+    </div>
+
+    <!-- Ações específicas agora aparecem dentro das abas correspondentes -->
+  </div>
+
+  <div class="mt-6 flex gap-2 overflow-x-auto pb-2">
+    <button type="button" [class]="tabButtonClasses('overview')" (click)="setTab('overview')">Overview</button>
+    <button type="button" [class]="tabButtonClasses('characters')" (click)="setTab('characters')">Characters</button>
+    <button type="button" [class]="tabButtonClasses('battles')" (click)="setTab('battles')">Battles</button>
+    <button type="button" [class]="tabButtonClasses('missions')" (click)="setTab('missions')">Missions</button>
+    <button type="button" [class]="tabButtonClasses('allies')" (click)="setTab('allies')">Allies</button>
+  </div>
+
+  <div class="mt-6 grid gap-6">
+    @if (activeTab() === 'overview') {
+    <app-tab-overview />
+    }
+
+    @if (activeTab() === 'characters') {
+    <app-tab-characters [isOwner]="isOwner()" />
+    }
+
+    @if (activeTab() === 'battles') {
+    <app-tab-battles />
+    }
+
+    @if (activeTab() === 'missions') {
+    <app-tab-missions />
+    }
+
+    @if (activeTab() === 'allies') {
+    <app-tab-allies [isOwner]="isOwner()" />
+    }
+  </div>
+</section>
