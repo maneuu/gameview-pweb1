@@ -1,0 +1,44 @@
+<section class="rounded-2xl border gv-border gv-surface p-5">
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <h3 class="text-base font-semibold gv-text">Characters</h3>
+      <span class="text-xs uppercase tracking-[0.28em] gv-muted">Lista</span>
+    </div>
+
+    @if (isOwner()) {
+    <button type="button" class="rounded-xl border gv-border gv-accent-bg px-4 py-2 text-sm font-medium text-white transition gv-hover-surface">Criar novo personagem</button>
+    }
+  </div>
+
+  <div class="mt-5 space-y-4">
+    <article class="rounded-2xl border gv-border gv-surface p-4">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p class="text-lg font-semibold gv-text">Aster</p>
+          <p class="mt-1 text-sm gv-muted">Classe: Guardião · Level 31</p>
+        </div>
+        <button type="button" class="rounded-xl border gv-border gv-surface px-4 py-2 text-sm font-medium gv-text transition gv-hover-surface">Ver detalhes</button>
+      </div>
+    </article>
+
+    <article class="rounded-2xl border gv-border gv-surface p-4">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p class="text-lg font-semibold gv-text">Nira</p>
+          <p class="mt-1 text-sm gv-muted">Classe: Arqueira · Level 28</p>
+        </div>
+        <button type="button" class="rounded-xl border gv-border gv-surface px-4 py-2 text-sm font-medium gv-text transition gv-hover-surface">Ver detalhes</button>
+      </div>
+    </article>
+
+    <article class="rounded-2xl border gv-border gv-surface p-4">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p class="text-lg font-semibold gv-text">Orin</p>
+          <p class="mt-1 text-sm gv-muted">Classe: Mago · Level 24</p>
+        </div>
+        <button type="button" class="rounded-xl border gv-border gv-surface px-4 py-2 text-sm font-medium gv-text transition gv-hover-surface">Ver detalhes</button>
+      </div>
+    </article>
+  </div>
+</section>
