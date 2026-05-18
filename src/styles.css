@@ -1,50 +1,318 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 @import 'tailwindcss';
 
 :root {
-  --gv-bg: #ffffff; /* page background */
-  --gv-surface: #ffffff; /* cards / surfaces */
-  --gv-border: #e6e9ef; /* subtle borders */
-  --gv-text: #0f1724; /* primary text */
-  --gv-muted: #6b7280; /* secondary text */
-  --gv-accent: #2563eb; /* accent (blue) */
-  --gv-accent-weak: #60a5fa;
+  --gv-bg: #0b0f1a;
+  --gv-surface: #141a2b;
+  --gv-surface-2: #0f1526;
+  --gv-border: #e6f2ff;
+  --gv-text: #f7fbff;
+  --gv-muted: #9fb2c9;
+  --gv-cyan: #1fe4ff;
+  --gv-red: #ff3d5a;
+  --gv-yellow: #ffd21f;
+  --gv-green: #7dff6a;
+  --gv-shadow: #05070d;
+  --gv-pixel: 3px;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background:
+    radial-gradient(
+      1200px 700px at 20% -10%,
+      #1f2a4a 0%,
+      rgba(31, 42, 74, 0.2) 55%,
+      transparent 60%
+    ),
+    linear-gradient(180deg, #0b0f1a 0%, #0a0d16 100%);
+  color: var(--gv-text);
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+}
+
+a {
+  color: var(--gv-cyan);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--gv-yellow);
+}
+
+/* global helpers */
 .gv-bg {
   background-color: var(--gv-bg) !important;
 }
+
 .gv-surface {
   background-color: var(--gv-surface) !important;
 }
-.gv-border {
-  border-color: var(--gv-border) !important;
+
+.gv-surface-2 {
+  background-color: var(--gv-surface-2) !important;
 }
+
 .gv-text {
   color: var(--gv-text) !important;
 }
+
 .gv-muted {
   color: var(--gv-muted) !important;
 }
-.gv-accent {
-  color: var(--gv-accent) !important;
-}
-.gv-accent-bg {
-  background-color: var(--gv-accent) !important;
-  color: white !important;
-}
-.gv-accent-weak-bg {
-  background-color: var(--gv-accent-weak) !important;
-  color: white !important;
-}
-.gv-shadow-soft {
-  box-shadow: 0 8px 24px rgba(15, 23, 36, 0.06);
+
+.gv-cyan {
+  color: var(--gv-cyan) !important;
 }
 
-/* small helpers */
-.gv-hover-surface:hover {
-  background-color: rgba(0, 0, 0, 0.03);
+.gv-red {
+  color: var(--gv-red) !important;
+}
+
+.gv-yellow {
+  color: var(--gv-yellow) !important;
+}
+
+.gv-title {
+  font-family: 'Press Start 2P', monospace;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--gv-yellow);
+  text-shadow: 2px 2px 0 var(--gv-shadow);
+}
+
+.gv-subtitle {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: var(--gv-cyan);
+}
+
+.gv-panel {
+  background: linear-gradient(180deg, #1a2238 0%, #0f1526 100%);
+  border: var(--gv-pixel) solid var(--gv-border);
+  box-shadow:
+    0 0 0 var(--gv-pixel) #1a2440,
+    6px 6px 0 var(--gv-shadow);
+  padding: 16px;
+}
+
+.gv-sidebar {
+  background: linear-gradient(180deg, #1a2238 0%, #0f1526 100%);
+  border: var(--gv-pixel) solid var(--gv-border);
+  box-shadow:
+    0 0 0 var(--gv-pixel) #1a2440,
+    6px 6px 0 var(--gv-shadow);
+  padding: 12px 10px;
+}
+
+.gv-sidebar-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+  color: var(--gv-yellow);
+  text-shadow: 2px 2px 0 var(--gv-shadow);
+}
+
+.gv-sidebar-subtitle {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  line-height: 1.2;
+  letter-spacing: 0.4px;
+  color: var(--gv-cyan);
+}
+
+.gv-card {
+  background: var(--gv-surface);
+  border: var(--gv-pixel) solid var(--gv-border);
+  box-shadow:
+    0 0 0 var(--gv-pixel) #20304d,
+    8px 8px 0 var(--gv-shadow);
+  padding: 16px;
+}
+
+.gv-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.gv-chip {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  padding: 6px 8px;
+  background: var(--gv-surface-2);
+  border: var(--gv-pixel) solid var(--gv-border);
+  box-shadow: 3px 3px 0 var(--gv-shadow);
+  color: var(--gv-cyan);
+}
+
+.gv-btn {
+  display: inline-block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  padding: 10px 14px;
+  border: var(--gv-pixel) solid var(--gv-border);
+  background: linear-gradient(180deg, #2b3d66 0%, #1b2742 100%);
+  color: var(--gv-text);
+  box-shadow:
+    0 0 0 var(--gv-pixel) #283a5c,
+    6px 6px 0 var(--gv-shadow);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.gv-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow:
+    0 0 0 var(--gv-pixel) #2f4366,
+    8px 8px 0 var(--gv-shadow);
+}
+
+.gv-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow:
+    0 0 0 var(--gv-pixel) #2f4366,
+    4px 4px 0 var(--gv-shadow);
+}
+
+.gv-btn-flat {
+  box-shadow: 0 0 0 var(--gv-pixel) #283a5c;
+}
+
+.gv-btn-flat:hover,
+.gv-btn-flat:active {
+  transform: none;
+  box-shadow: 0 0 0 var(--gv-pixel) #2f4366;
+}
+
+.gv-btn-ghost {
+  background: linear-gradient(180deg, #1a2238 0%, #11192c 100%);
+  color: var(--gv-text);
+}
+
+.gv-btn-sm {
+  font-size: 10px;
+  padding: 8px 10px;
+}
+
+.gv-btn-cyan {
+  background: linear-gradient(180deg, #1fe4ff 0%, #1aa4c2 100%);
+  color: #0b0f1a;
+  border-color: #e7feff;
+}
+
+.gv-btn-red {
+  background: linear-gradient(180deg, #ff3d5a 0%, #c5283f 100%);
+  color: #0b0f1a;
+  border-color: #ffd1d8;
+}
+
+.gv-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--gv-surface-2);
+  border: var(--gv-pixel) solid var(--gv-border);
+  box-shadow:
+    0 0 0 var(--gv-pixel) #202b44,
+    6px 6px 0 var(--gv-shadow);
+}
+
+.gv-table th,
+.gv-table td {
+  padding: 10px 12px;
+  border-bottom: 2px solid #22304f;
+}
+
+.gv-table th {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--gv-yellow);
+  background: #10182b;
+}
+
+.gv-table tr:hover td {
+  background: rgba(31, 228, 255, 0.08);
+}
+
+.gv-stat {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: var(--gv-cyan);
+  text-shadow: 2px 2px 0 var(--gv-shadow);
+}
+
+.gv-xp {
+  width: 100%;
+  height: 18px;
+  border: var(--gv-pixel) solid var(--gv-border);
+  background: #0a0f1c;
+  box-shadow: inset 3px 3px 0 #0a0d16;
+  position: relative;
+}
+
+.gv-xp-bar {
+  height: 100%;
+  background: repeating-linear-gradient(90deg, #1fe4ff 0 10px, #1aa4c2 10px 20px);
+  box-shadow: inset -3px 0 0 rgba(0, 0, 0, 0.3);
+}
+
+.gv-xp-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #0b0f1a;
+  text-shadow: 1px 1px 0 #ffffff;
+}
+
+.gv-hr {
+  height: 6px;
+  background: repeating-linear-gradient(90deg, #1fe4ff 0 12px, #0f1526 12px 24px);
+  border: var(--gv-pixel) solid var(--gv-border);
+  box-shadow: 4px 4px 0 var(--gv-shadow);
+}
+
+/* optional CRT scanlines */
+.gv-crt {
+  position: relative;
+}
+
+.gv-crt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03) 0px,
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+  mix-blend-mode: screen;
+  opacity: 0.35;
 }
 
 input::placeholder,
@@ -53,9 +321,24 @@ textarea::placeholder {
   opacity: 1;
 }
 
+input,
+textarea,
+select {
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  background: #0f1526;
+  color: var(--gv-text);
+  border: var(--gv-pixel) solid var(--gv-border);
+  box-shadow: 4px 4px 0 var(--gv-shadow);
+  padding: 8px 10px;
+}
+
 input:focus,
-textarea:focus {
-  border-color: var(--gv-accent);
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06);
+textarea:focus,
+select:focus {
+  border-color: var(--gv-cyan);
   outline: none;
+  box-shadow:
+    0 0 0 2px var(--gv-cyan),
+    4px 4px 0 var(--gv-shadow);
 }

@@ -1,9 +1,16 @@
-<section class="mx-auto min-h-screen max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-  <div class="flex flex-col gap-4 border-b gv-border pb-6 sm:flex-row sm:items-start sm:justify-between">
-    <div class="max-w-2xl space-y-3">
-      <p class="text-xs font-medium uppercase tracking-[0.28em] gv-muted">Painel principal</p>
-      <h1 class="text-3xl font-semibold tracking-tight gv-text sm:text-4xl">Bem-vindo, Kael</h1>
-      <p class="text-sm leading-6 gv-muted sm:text-base">Seu progresso e seus aliados</p>
+<section class="gv-crt mx-auto min-h-screen max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+  <div class="flex flex-col gap-6 border-b gv-border pb-6 sm:flex-row sm:items-start sm:justify-between">
+    <div class="max-w-3xl space-y-4">
+      <p class="gv-subtitle">Painel principal</p>
+      <h1 class="gv-title">Bem-vindo ao GameView</h1>
+      <p class="gv-muted">
+        Aqui voce visualiza estatisticas de jogadores, classes e personagens, alem de acessar perfis
+        publicos em um painel retro. Use os atalhos abaixo para explorar o ranking e buscar jogadores.
+      </p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <a routerLink="/leaderboard" class="gv-btn gv-btn-ghost gv-btn-sm">Ver ranking</a>
+      <a routerLink="/search" class="gv-btn gv-btn-cyan gv-btn-sm">Buscar jogador</a>
     </div>
   </div>
 

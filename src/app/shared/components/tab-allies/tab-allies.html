@@ -1,43 +1,43 @@
-<section class="rounded-2xl border gv-border gv-surface p-5">
+<section class="gv-card">
   <div class="flex items-center justify-between gap-4">
     <div>
-      <h3 class="text-base font-semibold gv-text">Allies</h3>
-      <span class="text-xs uppercase tracking-[0.28em] gv-muted">Rede</span>
+      <h3 class="gv-title">Allies</h3>
+      <span class="gv-subtitle">Rede</span>
     </div>
 
     @if (isOwner()) {
-    <button type="button" class="rounded-xl border gv-border gv-accent-bg px-4 py-2 text-sm font-medium text-white transition gv-hover-surface">Criar aliança</button>
+    <button type="button" class="gv-btn gv-btn-cyan gv-btn-sm">Criar aliança</button>
     }
   </div>
 
   <div class="mt-5 space-y-4">
-    <article class="rounded-2xl border gv-border gv-surface p-4">
+    <article class="gv-card gv-surface-2">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p class="text-lg font-semibold gv-text">Lysa</p>
-          <p class="mt-1 text-sm gv-muted">Suporte e cura</p>
+          <p class="gv-stat">Lysa</p>
+          <p class="mt-1 gv-muted">Suporte e cura</p>
         </div>
-
+        <button type="button" class="gv-btn gv-btn-red gv-btn-sm">Remover aliança</button>
       </div>
     </article>
 
-    <article class="rounded-2xl border gv-border gv-surface p-4">
+    <article class="gv-card gv-surface-2">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p class="text-lg font-semibold gv-text">Daren</p>
-          <p class="mt-1 text-sm gv-muted">Tanque e proteção</p>
+          <p class="gv-stat">Daren</p>
+          <p class="mt-1 gv-muted">Tanque e proteção</p>
         </div>
-
+        <button type="button" class="gv-btn gv-btn-red gv-btn-sm">Remover aliança</button>
       </div>
     </article>
 
-    <article class="rounded-2xl border gv-border gv-surface p-4">
+    <article class="gv-card gv-surface-2">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p class="text-lg font-semibold gv-text">Tova</p>
-          <p class="mt-1 text-sm gv-muted">Exploração e coleta</p>
+          <p class="gv-stat">Tova</p>
+          <p class="mt-1 gv-muted">Exploração e coleta</p>
         </div>
-
+        <button type="button" class="gv-btn gv-btn-red gv-btn-sm">Remover aliança</button>
       </div>
     </article>
   </div>

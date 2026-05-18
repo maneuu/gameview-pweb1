@@ -1,39 +1,39 @@
-<aside class="group fixed inset-y-0 left-0 z-30 flex w-20 flex-col border-r gv-border gv-surface px-3 py-4 gv-shadow-soft transition-all duration-300 hover:w-64">
-  <div class="flex items-center gap-3 px-1">
-    <div class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border gv-border gv-surface text-sm font-semibold gv-accent shadow-[0_8px_20px_rgba(0,0,0,0.08)]">
+<aside class="group fixed inset-y-0 left-0 z-30 flex w-20 flex-col gv-sidebar transition-all duration-300 hover:w-64">
+  <a routerLink="/" class="flex items-center gap-3 px-1">
+    <div class="grid h-11 w-11 shrink-0 place-items-center gv-chip gv-title">
       GV
     </div>
     <div class="overflow-hidden">
-      <p class="whitespace-nowrap text-sm font-semibold gv-text opacity-0 transition group-hover:opacity-100">GameView</p>
-      <p class="whitespace-nowrap text-xs gv-muted opacity-0 transition group-hover:opacity-100">Painel do jogador</p>
+      <p class="gv-sidebar-title opacity-0 transition group-hover:opacity-100">GameView</p>
+      <p class="gv-sidebar-subtitle opacity-0 transition group-hover:opacity-100">Painel do jogador</p>
     </div>
-  </div>
+  </a>
 
   <nav class="mt-8 space-y-2">
-    <a routerLink="/" class="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm gv-muted transition gv-hover-surface">
-      <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5 shrink-0 gv-accent" aria-hidden="true">
+    <a routerLink="/" class="flex items-center gap-3 gv-btn gv-btn-ghost gv-btn-sm gv-btn-flat w-full justify-start">
+      <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5 shrink-0 gv-cyan" aria-hidden="true">
         <path d="M4 11.5L12 4l8 7.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1v-8.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
       </svg>
       <span class="whitespace-nowrap opacity-0 transition group-hover:opacity-100">Home</span>
     </a>
 
-    <a routerLink="/leaderboard" class="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm gv-muted transition gv-hover-surface">
-      <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5 shrink-0 gv-accent" aria-hidden="true">
+    <a routerLink="/leaderboard" class="flex items-center gap-3 gv-btn gv-btn-ghost gv-btn-sm gv-btn-flat w-full justify-start">
+      <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5 shrink-0 gv-cyan" aria-hidden="true">
         <path d="M7 20V11M12 20V4M17 20v-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
       </svg>
       <span class="whitespace-nowrap opacity-0 transition group-hover:opacity-100">Leaderboard</span>
     </a>
 
-    <a routerLink="/search" class="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm gv-muted transition gv-hover-surface">
-      <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5 shrink-0 gv-accent" aria-hidden="true">
+    <a routerLink="/search" class="flex items-center gap-3 gv-btn gv-btn-ghost gv-btn-sm gv-btn-flat w-full justify-start">
+      <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5 shrink-0 gv-cyan" aria-hidden="true">
         <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.5" />
         <path d="m16 16 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
       </svg>
       <span class="whitespace-nowrap opacity-0 transition group-hover:opacity-100">Buscar Jogador</span>
     </a>
 
-    <a routerLink="/login" class="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm gv-muted transition gv-hover-surface">
-      <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5 shrink-0 gv-accent" aria-hidden="true">
+    <a routerLink="/login" class="flex items-center gap-3 gv-btn gv-btn-ghost gv-btn-sm gv-btn-flat w-full justify-start">
+      <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5 shrink-0 gv-cyan" aria-hidden="true">
         <path d="M14 7V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
         <path d="M10 12h10m0 0-3-3m3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
@@ -42,11 +42,11 @@
   </nav>
 
   <div class="mt-auto border-t gv-border pt-4">
-    <div class="flex items-center gap-3 rounded-2xl px-2 py-3">
-      <div class="grid h-10 w-10 shrink-0 place-items-center rounded-full border gv-border gv-surface text-sm font-semibold gv-text">KS</div>
+    <div class="flex items-center gap-3 px-2 py-3">
+      <div class="grid h-10 w-10 shrink-0 place-items-center gv-chip">KS</div>
       <div class="overflow-hidden">
-        <p class="whitespace-nowrap text-sm font-medium gv-text opacity-0 transition group-hover:opacity-100">Kael Storm</p>
-        <p class="whitespace-nowrap text-xs gv-muted opacity-0 transition group-hover:opacity-100">Jogador logado</p>
+        <p class="whitespace-nowrap gv-text opacity-0 transition group-hover:opacity-100">Kael Storm</p>
+        <p class="whitespace-nowrap gv-muted opacity-0 transition group-hover:opacity-100">Jogador logado</p>
       </div>
     </div>
   </div>

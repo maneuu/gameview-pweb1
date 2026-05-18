@@ -30,9 +30,7 @@ export class PlayerOverviewComponent {
   ): string {
     const isActive = this.activeTab() === tab;
 
-    return isActive
-      ? 'rounded-full border gv-border gv-accent-bg px-4 py-2 text-sm font-medium text-white'
-      : 'rounded-full border gv-border gv-surface px-4 py-2 text-sm font-medium gv-muted transition gv-hover-surface';
+    return isActive ? 'gv-btn gv-btn-cyan gv-btn-sm' : 'gv-btn gv-btn-ghost gv-btn-sm';
   }
 
   protected setTab(tab: 'overview' | 'characters' | 'battles' | 'missions' | 'allies'): void {
