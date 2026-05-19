@@ -17,4 +17,8 @@ export class JogadorService {
   getAll(): Observable<Jogador[]> {
     return this.http.get<Jogador[]>(this.baseUrl, { headers: this.headers });
   }
+  getTop10ByPontuacao(): Observable<Jogador[]> {
+    const url = `${this.baseUrl}?select=*&order=pontuacao.desc&limit=10`;
+    return this.http.get<Jogador[]>(url, { headers: this.headers });
+  }
 }
