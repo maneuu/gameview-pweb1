@@ -9,46 +9,21 @@
     </div>
 
     <div class="space-y-4">
+
+      @for (jogador of jogadores(); track jogador.id_jogador; let i = $index) {
+
       <app-card>
-        <span card-title>#1 Orion Vale</span>
-        <span card-content>Pontuação: 9.860</span>
+        <span card-title>
+          #{{ i + 1 }} {{ jogador.nome_usuario }}
+        </span>
+
+        <span card-content>
+          Pontuação: {{ jogador.pontuacao }}
+        </span>
       </app-card>
-      <app-card>
-        <span card-title>#2 Lyra Ember</span>
-        <span card-content>Pontuação: 9.420</span>
-      </app-card>
-      <app-card>
-        <span card-title>#3 Kael Storm</span>
-        <span card-content>Pontuação: 9.110</span>
-      </app-card>
-      <app-card>
-        <span card-title>#4 Nox Raven</span>
-        <span card-content>Pontuação: 8.942</span>
-      </app-card>
-      <app-card>
-        <span card-title>#5 Mira Sol</span>
-        <span card-content>Pontuação: 8.730</span>
-      </app-card>
-      <app-card>
-        <span card-title>#6 Dorian Frost</span>
-        <span card-content>Pontuação: 8.512</span>
-      </app-card>
-      <app-card>
-        <span card-title>#7 Elara Night</span>
-        <span card-content>Pontuação: 8.204</span>
-      </app-card>
-      <app-card>
-        <span card-title>#8 Vex Hollow</span>
-        <span card-content>Pontuação: 7.981</span>
-      </app-card>
-      <app-card>
-        <span card-title>#9 Astra Bloom</span>
-        <span card-content>Pontuação: 7.744</span>
-      </app-card>
-      <app-card>
-        <span card-title>#10 Rune Vale</span>
-        <span card-content>Pontuação: 7.520</span>
-      </app-card>
+
+      }
+
     </div>
   </div>
 </section>
