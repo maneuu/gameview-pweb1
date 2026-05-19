@@ -1,0 +1,60 @@
+
+@baseUrl =
+// https://url.supabase.co
+@apikey =
+// sb_publishable_key_xxx
+### Jogador - get all
+
+### Jogador - get all
+GET {{baseUrl}}/rest/v1/jogador
+apikey: {{apikey}}
+Authorization: Bearer {{apikey}}
+Content-Type: application/json
+
+### Classe - get all
+GET {{baseUrl}}/rest/v1/classe
+apikey: {{apikey}}
+Authorization: Bearer {{apikey}}
+Content-Type: application/json
+
+### Personagem - get all
+GET {{baseUrl}}/rest/v1/personagem
+apikey: {{apikey}}
+Authorization: Bearer {{apikey}}
+Content-Type: application/json
+
+### Guilda - get all
+GET {{baseUrl}}/rest/v1/guilda
+apikey: {{apikey}}
+Authorization: Bearer {{apikey}}
+Content-Type: application/json
+
+### Missao - get all
+GET {{baseUrl}}/rest/v1/missao
+apikey: {{apikey}}
+Authorization: Bearer {{apikey}}
+Content-Type: application/json
+
+### Monstro - get all
+GET {{baseUrl}}/rest/v1/monstro
+apikey: {{apikey}}
+Authorization: Bearer {{apikey}}
+Content-Type: application/json
+
+### Missao Registro - get all
+GET {{baseUrl}}/rest/v1/missaoregistro
+apikey: {{apikey}}
+Authorization: Bearer {{apikey}}
+Content-Type: application/json
+
+### Batalha Registro - get all
+GET {{baseUrl}}/rest/v1/batalharegistro
+apikey: {{apikey}}
+Authorization: Bearer {{apikey}}
+Content-Type: application/json
+
+### Aliado - get all
+GET {{baseUrl}}/rest/v1/aliado
+apikey: {{apikey}}
+Authorization: Bearer {{apikey}}
+Content-Type: application/json
