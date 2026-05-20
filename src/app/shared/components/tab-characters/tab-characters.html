@@ -6,7 +6,9 @@
     </div>
 
     @if (isOwner()) {
-    <button type="button" class="gv-btn gv-btn-cyan gv-btn-sm">Criar novo personagem</button>
+    <button type="button" (click)="abrirModal()" class="gv-btn gv-btn-cyan gv-btn-sm">
+      Criar novo personagem
+    </button>
     }
   </div>
 
@@ -57,3 +59,21 @@
     </article>
   </div>
 </section>
+
+@if (isModalOpen()) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+    
+    <div class="relative w-full max-w-lg">
+      
+      <button 
+        type="button" 
+        (click)="fecharModal()" 
+        class="absolute top-10 right-2 z-10 gv-btn gv-btn-red gv-btn-sm !px-3 font-bold"
+        title="Fechar modal">
+        X
+      </button>
+      
+      <app-form-character></app-form-character>
+    </div>
+  </div>
+}
