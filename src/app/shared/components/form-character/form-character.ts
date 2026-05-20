@@ -31,7 +31,6 @@ export class FormCharacterComponent {
     { id: 3, nome: 'Arqueiro' },
     { id: 4, nome: 'Ladino' },
     { id: 5, nome: 'Paladino' },
-    { id: 6, nome: 'Druida' }
   ];
 
   racas = ['Humano', 'Elfo', 'Anão', 'Halfling', 'Orc', 'Tiefling', 'Draconato', 'Gnomo'];
