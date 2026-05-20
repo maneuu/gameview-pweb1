@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { PlayerOverviewComponent } from '../../shared/components/player-overview/player-overview';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'HomeComponent',
@@ -10,4 +11,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './home.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent {}
+export class HomeComponent {
+  private readonly authService = inject(AuthService);
+
+  readonly isLoggedIn = this.authService.isLoggedIn;
+}

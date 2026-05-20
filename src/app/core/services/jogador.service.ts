@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Jogador } from '../models/jogador.model';
 import { environment } from '../../../environments/environment';
 
@@ -20,5 +20,12 @@ export class JogadorService {
   getTop10ByPontuacao(): Observable<Jogador[]> {
     const url = `${this.baseUrl}?select=*&order=pontuacao.desc&limit=10`;
     return this.http.get<Jogador[]>(url, { headers: this.headers });
+  }
+
+  getById(idJogador: number): Observable<Jogador | null> {
+    const url = `${this.baseUrl}?select=*&id_jogador=eq.${idJogador}&limit=1`;
+    return this.http
+      .get<Jogador[]>(url, { headers: this.headers })
+      .pipe(map((jogadores) => jogadores[0] ?? null));
   }
 }

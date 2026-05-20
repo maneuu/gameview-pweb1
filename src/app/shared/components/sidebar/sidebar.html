@@ -42,12 +42,28 @@
   </nav>
 
   <div class="mt-auto border-t gv-border pt-4">
+    @if (isLoggedIn()) {
     <div class="flex items-center gap-3 px-2 py-3">
-      <div class="grid h-10 w-10 shrink-0 place-items-center gv-chip">KS</div>
+      <div class="grid h-10 w-10 shrink-0 place-items-center gv-chip">{{ initials() }}</div>
       <div class="overflow-hidden">
-        <p class="whitespace-nowrap gv-text opacity-0 transition group-hover:opacity-100">Kael Storm</p>
+        <p class="whitespace-nowrap gv-text opacity-0 transition group-hover:opacity-100">{{ user()?.nome_usuario }}</p>
         <p class="whitespace-nowrap gv-muted opacity-0 transition group-hover:opacity-100">Jogador logado</p>
       </div>
     </div>
+    <div class="px-2 pb-3 overflow-hidden opacity-0 transition group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto">
+      <button type="button" class="gv-btn gv-btn-ghost gv-btn-sm w-full" (click)="logout()">
+        Logout
+      </button>
+    </div>
+    } @else {
+    <div class="flex items-center gap-3 px-2 py-3">
+      <div class="grid h-10 w-10 shrink-0 place-items-center gv-chip">GV</div>
+      <div class="overflow-hidden">
+        <p class="whitespace-nowrap gv-text opacity-0 transition group-hover:opacity-100">Visitante</p>
+        <p class="whitespace-nowrap gv-muted opacity-0 transition group-hover:opacity-100">Nao conectado</p>
+      </div>
+    </div>
+    <div class="px-2 pb-3"></div>
+    }
   </div>
 </aside>
