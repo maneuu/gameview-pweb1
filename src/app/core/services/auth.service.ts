@@ -23,7 +23,7 @@ export class AuthService {
   }
 
   login(idJogador: number, senha: string): Observable<AuthResult> {
-    if (!idJogador || !senha.trim()) {
+    if (idJogador == null || !senha.trim()) {
       return of({ ok: false, message: 'Preencha o ID e a senha.' });
     }
 
@@ -64,7 +64,7 @@ export class AuthService {
     try {
       const jogador = JSON.parse(stored) as Jogador | null;
       if (jogador) {
-        this.userState.set(this.sanitizeUser(jogador));
+        this.userState.set(jogador);
       }
     } catch {
       localStorage.removeItem(this.storageKey);
@@ -72,6 +72,7 @@ export class AuthService {
   }
 
   private sanitizeUser(jogador: Jogador): Jogador {
-    return { ...jogador, senha: '' };
+    const { senha, email, ...safeUser } = jogador;
+    return safeUser as Jogador;
   }
 }

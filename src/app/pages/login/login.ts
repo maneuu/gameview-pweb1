@@ -1,57 +1,51 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { take } from 'rxjs';
 
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
-  selector: 'LoginComponent',
+  selector: 'app-login',
   imports: [FormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-  private readonly authService = inject(AuthService);
+  authService = inject(AuthService);
 
-  readonly user = this.authService.user;
-  readonly isLoggedIn = this.authService.isLoggedIn;
-  readonly idJogador = signal('');
-  readonly senha = signal('');
-  readonly errorMessage = signal<string | null>(null);
-  readonly loading = signal(false);
+  idJogador = '';
+  senha = '';
+  errorMessage: string | null = null;
+  loading = false;
 
   submit(): void {
-    this.errorMessage.set(null);
+    this.errorMessage = null;
 
-    const idValue = this.idJogador().trim();
-    const senhaValue = this.senha().trim();
-    const idJogador = Number(idValue);
+    const idValue = this.idJogador.trim();
+    const senhaValue = this.senha.trim();
+    const idNumero = Number(idValue);
 
-    if (!idValue || !senhaValue || !Number.isFinite(idJogador)) {
-      this.errorMessage.set('Informe um ID valido e a senha.');
+    if (!idValue || !senhaValue) {
+      this.errorMessage = 'Informe um ID válido e a senha.';
       return;
     }
 
-    this.loading.set(true);
-    this.authService
-      .login(idJogador, senhaValue)
-      .pipe(take(1))
-      .subscribe((result) => {
-        this.loading.set(false);
-        if (!result.ok) {
-          this.errorMessage.set(result.message ?? 'Falha no login.');
-          return;
-        }
+    this.loading = true;
 
-        this.senha.set('');
-      });
+    this.authService.login(idNumero, senhaValue).subscribe((result) => {
+      this.loading = false;
+
+      if (!result.ok) {
+        this.errorMessage = result.message ?? 'Falha no login.';
+        return;
+      }
+
+      this.senha = '';
+    });
   }
 
   logout(): void {
     this.authService.logout();
-    this.idJogador.set('');
-    this.senha.set('');
-    this.errorMessage.set(null);
+    this.idJogador = '';
+    this.senha = '';
+    this.errorMessage = null;
   }
 }
