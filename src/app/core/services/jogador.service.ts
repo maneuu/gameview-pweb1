@@ -48,4 +48,12 @@ export class JogadorService {
       .post<Jogador[]>(this.baseUrl, jogador, { headers })
       .pipe(map((jogadores) => jogadores[0]));
   }
+
+  getByNome(nome: string): Observable<Jogador[]> {
+    const url = `${this.baseUrl}?select=*&nome_usuario=ilike.*${nome}*`;
+
+    return this.http.get<Jogador[]>(url, {
+      headers: this.headers,
+    });
+  }
 }
