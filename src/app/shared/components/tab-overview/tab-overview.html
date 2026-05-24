@@ -1,21 +1,61 @@
 <section class="gv-card">
   <div class="flex items-center justify-between gap-4">
-    <h3 class="gv-title">Overview</h3>
+    <div class="flex items-center gap-2">
+
+      <h3 class="gv-title">Overview</h3>
+    </div>
     <span class="gv-subtitle">Resumo</span>
   </div>
 
+  @if (player(); as jogador) {
   <div class="mt-5 grid gap-4 sm:grid-cols-3">
     <div class="gv-card gv-surface-2">
-      <p class="gv-subtitle">Level</p>
-      <p class="mt-3 gv-stat">42</p>
+      <div class="flex items-center gap-2 gv-subtitle">
+        <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.6L12 16.8 7.1 18.3 8 12.7 4 8.8 9.5 8z" />
+        </svg>
+        Level
+      </div>
+      <p class="mt-3 gv-stat">{{ jogador.nivel }}</p>
     </div>
     <div class="gv-card gv-surface-2">
-      <p class="gv-subtitle">XP</p>
-      <p class="mt-3 gv-stat">18.240</p>
+      <div class="flex items-center gap-2 gv-subtitle">
+        <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M12 2v6M12 16v6M4 8h16M4 16h16" />
+        </svg>
+        XP
+      </div>
+      <p class="mt-3 gv-stat">{{ jogador.experiencia }}</p>
     </div>
     <div class="gv-card gv-surface-2">
-      <p class="gv-subtitle">Rank</p>
-      <p class="mt-3 gv-stat">Elite</p>
+      <div class="flex items-center gap-2 gv-subtitle">
+        <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M6 5h12v14H6z" />
+          <path d="M9 9h6M9 13h6" />
+        </svg>
+        Pontuacao
+      </div>
+      <p class="mt-3 gv-stat">{{ jogador.pontuacao }}</p>
     </div>
   </div>
+
+  <div class="mt-4 gv-card gv-surface-2">
+    <div class="flex items-center gap-2 gv-subtitle">
+      <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M6 4h12v16H6z" />
+        <path d="M9 8h6M9 12h6M9 16h4" />
+      </svg>
+      Guilda
+    </div>
+    @if (isLoading()) {
+    <p class="mt-3 gv-muted">Carregando...</p>
+    } @else if (guilda()) {
+    <p class="mt-3 gv-stat">{{ guilda()?.nome_guilda }}</p>
+    } @else {
+    <p class="mt-3 gv-muted">Sem guilda</p>
+    }
+  </div>
+  } @else {
+  <p class="mt-5 gv-muted">Jogador não encontrado.</p>
+  }
 </section>

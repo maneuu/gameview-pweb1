@@ -17,4 +17,9 @@ export class MissaoRegistroService {
   getAll(): Observable<MissaoRegistro[]> {
     return this.http.get<MissaoRegistro[]>(this.baseUrl, { headers: this.headers });
   }
+
+  getByJogador(idJogador: number): Observable<MissaoRegistro[]> {
+    const url = `${this.baseUrl}?fk_id_jogador=eq.${idJogador}`;
+    return this.http.get<MissaoRegistro[]>(url, { headers: this.headers });
+  }
 }

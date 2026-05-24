@@ -18,6 +18,11 @@ export class AliadoService {
     return this.http.get<Aliado[]>(this.baseUrl, { headers: this.headers });
   }
 
+  getByJogador(idJogador: number): Observable<Aliado[]> {
+    const url = `${this.baseUrl}?fk_id_jogador=eq.${idJogador}`;
+    return this.http.get<Aliado[]>(url, { headers: this.headers });
+  }
+
   create(data: Aliado): Observable<Aliado> {
     return this.http.post<Aliado>(this.baseUrl, data, { headers: this.headers });
   }

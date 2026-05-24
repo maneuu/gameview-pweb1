@@ -17,4 +17,9 @@ export class BatalhaRegistroService {
   getAll(): Observable<BatalhaRegistro[]> {
     return this.http.get<BatalhaRegistro[]>(this.baseUrl, { headers: this.headers });
   }
+
+  getByJogador(idJogador: number): Observable<BatalhaRegistro[]> {
+    const url = `${this.baseUrl}?fk_id_jogador=eq.${idJogador}`;
+    return this.http.get<BatalhaRegistro[]>(url, { headers: this.headers });
+  }
 }
