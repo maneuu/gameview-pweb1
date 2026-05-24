@@ -1,5 +1,4 @@
-import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PersonagemService } from '../../../core/services/personagem.service';
 import { Personagem } from '../../../core/models/personagem.model';
@@ -7,12 +6,14 @@ import { Personagem } from '../../../core/models/personagem.model';
 @Component({
   selector: 'app-form-character',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './form-character.html', // Sem o .component
-  styleUrls: ['./form-character.css']   // Sem o .component
+  styleUrls: ['./form-character.css'], // Sem o .component
 })
 export class FormCharacterComponent {
-  // Sinais de estado dos inputs
+  private personagemService = inject(PersonagemService);
+  private readonly storageKey = 'gameview.auth.user';
+
   nome = signal<string>('');
   classeId = signal<number | null>(null);
   racaSelecionada = signal<string>('');
@@ -20,7 +21,6 @@ export class FormCharacterComponent {
   arma = signal<string>('');
   habilidadesText = signal<string>('');
 
-  // Sinais de controle do formulário
   mensagem = signal<string>('');
   isSucesso = signal<boolean>(false);
   tentouSubmeter = signal<boolean>(false);
@@ -35,50 +35,108 @@ export class FormCharacterComponent {
 
   racas = ['Humano', 'Elfo', 'Anão', 'Halfling', 'Orc', 'Tiefling', 'Draconato', 'Gnomo'];
 
-  // Injeção do seu PersonagemService via construtor
-  constructor(private personagemService: PersonagemService) {}
+  get nomeModel() {
+    return this.nome();
+  }
+
+  set nomeModel(value: string) {
+    this.nome.set(value);
+  }
+
+  get classeIdModel() {
+    return this.classeId();
+  }
+
+  set classeIdModel(value: number | null) {
+    this.classeId.set(value);
+  }
+
+  get racaModel() {
+    return this.racaSelecionada();
+  }
+
+  set racaModel(value: string) {
+    this.racaSelecionada.set(value);
+  }
+
+  get armaModel() {
+    return this.arma();
+  }
+
+  set armaModel(value: string) {
+    this.arma.set(value);
+  }
+
+  get habilidadesModel() {
+    return this.habilidadesText();
+  }
+
+  set habilidadesModel(value: string) {
+    this.habilidadesText.set(value);
+  }
+
+  get descricaoModel() {
+    return this.descricaoText();
+  }
+
+  set descricaoModel(value: string) {
+    this.descricaoText.set(value);
+  }
 
   salvarPersonagem() {
     this.tentouSubmeter.set(true);
     this.mensagem.set('');
 
-    // 1. Validação
     if (!this.nome() || !this.classeId() || !this.racaSelecionada()) {
       this.mensagem.set('Preencha os campos obrigatórios!');
       this.isSucesso.set(false);
       return;
     }
 
-    // 2. Resgatar Jogador
-    const idJogadorStr = localStorage.getItem('id_jogador');
-    const fk_id_jogador = idJogadorStr ? parseInt(idJogadorStr, 10) : 1;
+    const fk_id_jogador = this.getStoredUserId();
 
-    // 3. Montar Objeto (MÁGICA AQUI: Omitimos o id_personagem de propósito!)
-    // Se não mandarmos o ID, o backend do Supabase gera ele corretamente.
+    if (!fk_id_jogador) {
+      this.mensagem.set('Erro: usuário não autenticado!');
+      this.isSucesso.set(false);
+      return;
+    }
+
     const novoPersonagem = {
       nome_personagem: this.nome(),
-      fk_id_jogador: fk_id_jogador,
+      fk_id_jogador,
       fk_id_classe: Number(this.classeId()),
       raca: this.racaSelecionada(),
       descricao: this.descricaoText(),
       arma_principal: this.arma(),
-      habilidades: this.habilidadesText()
+      habilidades: this.habilidadesText(),
     } as Personagem;
 
-    // 4. Utilizando explicitamente o método create() do seu serviço
     this.personagemService.create(novoPersonagem).subscribe({
-      next: (resposta) => {
-        console.log('Personagem salvo no Supabase:', resposta);
+      next: () => {
         this.mensagem.set('Personagem forjado com sucesso!');
         this.isSucesso.set(true);
         this.limparFormulario();
       },
       error: (err) => {
-        console.error('Erro exato ao chamar o serviço:', err);
-        this.mensagem.set('Erro na criação! Aperte F12 e veja o Console.');
+        console.error('Erro ao criar personagem:', err);
+        this.mensagem.set('Erro na criação! Verifique o console.');
         this.isSucesso.set(false);
-      }
+      },
     });
+  }
+
+  private getStoredUserId(): number | null {
+    const raw = localStorage.getItem(this.storageKey);
+    if (!raw) {
+      return null;
+    }
+
+    try {
+      const parsed = JSON.parse(raw) as { id_jogador?: number } | null;
+      return typeof parsed?.id_jogador === 'number' ? parsed.id_jogador : null;
+    } catch {
+      return null;
+    }
   }
 
   limparFormulario() {

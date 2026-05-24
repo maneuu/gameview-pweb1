@@ -2,88 +2,62 @@
   <h2 class="gv-title text-center">Criar Personagem</h2>
 
   <form (ngSubmit)="salvarPersonagem()" class="flex flex-col gap-4">
-    
     <div class="flex flex-col gap-2">
       <label class="gv-subtitle">Nome do Personagem *</label>
-      <input type="text"
-             [ngModel]="nome()"
-             (ngModelChange)="nome.set($event)"
-             name="nome"
-             placeholder="Ex: Arthas Menethil"
-             class="w-full">
-      <span *ngIf="tentouSubmeter() && !nome()" class="text-[var(--gv-red)] text-sm">
-        O nome é obrigatório.
-      </span>
+      <input type="text" [(ngModel)]="nomeModel" name="nome" placeholder="Ex: Arthas Menethil" class="w-full">
+      @if (tentouSubmeter() && !nome()) {
+      <span class="text-[var(--gv-red)] text-sm">O nome é obrigatório.</span>
+      }
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="flex flex-col gap-2">
         <label class="gv-subtitle">Classe *</label>
-        <select [ngModel]="classeId()"
-                (ngModelChange)="classeId.set($event)"
-                name="classeId"
-                class="w-full">
+        <select [(ngModel)]="classeIdModel" name="classeId" class="w-full">
           <option [ngValue]="null" disabled selected>Seleciona...</option>
-          <option *ngFor="let c of classes" [ngValue]="c.id">{{ c.nome }}</option>
+          @for (c of classes; track c.id) {
+          <option [ngValue]="c.id">{{ c.nome }}</option>
+          }
         </select>
-        <span *ngIf="tentouSubmeter() && !classeId()" class="text-[var(--gv-red)] text-sm">
-          Falta escolher a classe.
-        </span>
+        @if (tentouSubmeter() && !classeId()) {
+        <span class="text-[var(--gv-red)] text-sm">Falta escolher a classe.</span>
+        }
       </div>
-
       <div class="flex flex-col gap-2">
         <label class="gv-subtitle">Raça *</label>
-        <select [ngModel]="racaSelecionada()"
-                (ngModelChange)="racaSelecionada.set($event)"
-                name="raca"
-                class="w-full">
+        <select [(ngModel)]="racaModel" name="raca" class="w-full">
           <option value="" disabled selected>Seleciona...</option>
-          <option *ngFor="let r of racas" [value]="r">{{ r }}</option>
+          @for (r of racas; track r) {
+          <option [value]="r">{{ r }}</option>
+          }
         </select>
-        <span *ngIf="tentouSubmeter() && !racaSelecionada()" class="text-[var(--gv-red)] text-sm">
-          Falta escolher a raça.
-        </span>
+        @if (tentouSubmeter() && !racaSelecionada()) {
+        <span class="text-[var(--gv-red)] text-sm">Falta escolher a raça.</span>
+        }
       </div>
     </div>
 
     <div class="flex flex-col gap-2">
       <label class="gv-subtitle">Arma Principal</label>
-      <input type="text"
-             [ngModel]="arma()"
-             (ngModelChange)="arma.set($event)"
-             name="arma"
-             placeholder="Ex: Espada de duas mãos..."
-             class="w-full">
+      <input type="text" [(ngModel)]="armaModel" name="arma" placeholder="Ex: Espada de duas mãos..." class="w-full">
     </div>
 
     <div class="flex flex-col gap-2">
       <label class="gv-subtitle">Habilidades Iniciais</label>
-      <textarea [ngModel]="habilidadesText()"
-                (ngModelChange)="habilidadesText.set($event)"
-                name="habilidades"
-                rows="2"
-                placeholder="Ex: Visão no escuro, Fúria..."
-                class="w-full"></textarea>
+      <textarea [(ngModel)]="habilidadesModel" name="habilidades" rows="2" placeholder="Ex: Visão no escuro, Fúria..." class="w-full"></textarea>
     </div>
 
     <div class="flex flex-col gap-2">
       <label class="gv-subtitle">Background / História</label>
-      <textarea [ngModel]="descricaoText()"
-                (ngModelChange)="descricaoText.set($event)"
-                name="descricao"
-                rows="3"
-                placeholder="Como é que vieste parar a este mundo?"
-                class="w-full"></textarea>
+      <textarea [(ngModel)]="descricaoModel" name="descricao" rows="3" placeholder="Como é que vieste parar a este mundo?" class="w-full"></textarea>
     </div>
 
-    <div *ngIf="mensagem()" 
-         [ngClass]="isSucesso() ? 'text-[var(--gv-green)]' : 'text-[var(--gv-red)]'"
-         class="font-['Press_Start_2P'] text-[10px] text-center mt-2">
+    @if (mensagem()) {
+    <div [class]="(isSucesso() ? 'text-[var(--gv-green)]' : 'text-[var(--gv-red)]') + ' font-[\'Press_Start_2P\'] text-[10px] text-center mt-2'">
       {{ mensagem() }}
     </div>
+    }
 
-    <button type="submit" class="gv-btn gv-btn-cyan w-full mt-4 flex items-center justify-center">
-      Forjar Personagem
-    </button>
+    <button type="submit" class="gv-btn gv-btn-cyan w-full mt-4 flex items-center justify-center">Forjar Personagem</button>
   </form>
 </div>

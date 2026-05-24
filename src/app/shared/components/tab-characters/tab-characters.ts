@@ -14,8 +14,8 @@ import { Personagem } from '../../../core/models/personagem.model';
 })
 export class TabCharactersComponent implements OnInit {
   private personagemService = inject(PersonagemService);
+  private readonly storageKey = 'gameview.auth.user';
 
-  // AS DUAS PORTAS DE ENTRADA (INPUTS) QUE O SEU HTML ESTÁ A EXIGIR:
   readonly isOwner = input(false);
   readonly playerId = input<number | null>(null);
 
@@ -29,7 +29,7 @@ export class TabCharactersComponent implements OnInit {
     3: 'Arqueiro',
     4: 'Ladino',
     5: 'Paladino',
-    6: 'Druida'
+    6: 'Druida',
   };
 
   ngOnInit() {
@@ -37,23 +37,31 @@ export class TabCharactersComponent implements OnInit {
   }
 
   carregarPersonagens() {
-    // Se for o dono, pega do localStorage. Se for visitante, pega o playerId que o pai injetou!
-    const loggedInIdStr = localStorage.getItem('id_jogador');
-    const loggedInId = loggedInIdStr ? parseInt(loggedInIdStr, 10) : null;
-    
+    const loggedInId = this.getStoredUserId();
     const idFiltragem = this.isOwner() ? loggedInId : this.playerId();
 
-    this.personagemService.getAll().subscribe({
-      next: (lista) => {
-        if (idFiltragem) {
-          // Filtra a lista com base no ID que definimos acima
-          this.personagens.set(lista.filter(p => p.fk_id_jogador === idFiltragem));
-        } else {
-          this.personagens.set(lista);
-        }
-      },
-      error: (err) => console.error('Erro ao buscar personagens:', err)
-    });
+    if (idFiltragem) {
+      this.personagemService.getByJogador(idFiltragem).subscribe({
+        next: (lista) => this.personagens.set(lista),
+        error: (err) => console.error('Erro ao buscar personagens:', err),
+      });
+    } else {
+      this.personagens.set([]);
+    }
+  }
+
+  private getStoredUserId(): number | null {
+    const raw = localStorage.getItem(this.storageKey);
+    if (!raw) {
+      return null;
+    }
+
+    try {
+      const parsed = JSON.parse(raw) as { id_jogador?: number } | null;
+      return typeof parsed?.id_jogador === 'number' ? parsed.id_jogador : null;
+    } catch {
+      return null;
+    }
   }
 
   abrirModal() {
@@ -62,7 +70,7 @@ export class TabCharactersComponent implements OnInit {
 
   fecharModal() {
     this.isModalOpen.set(false);
-    this.carregarPersonagens(); 
+    this.carregarPersonagens();
   }
 
   verDetalhes(personagem: Personagem) {
@@ -77,7 +85,7 @@ export class TabCharactersComponent implements OnInit {
     if (confirm('Deseja realmente deletar este personagem?')) {
       this.personagemService.delete(id).subscribe({
         next: () => this.carregarPersonagens(),
-        error: (err) => console.error('Erro ao remover personagem:', err)
+        error: (err) => console.error('Erro ao remover personagem:', err),
       });
     }
   }
