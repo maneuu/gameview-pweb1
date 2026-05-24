@@ -17,4 +17,10 @@ export class GuildaService {
   getAll(): Observable<Guilda[]> {
     return this.http.get<Guilda[]>(this.baseUrl, { headers: this.headers });
   }
+
+  // Busca a guilda do jogador.
+  getByJogador(idJogador: number): Observable<Guilda[]> {
+    const url = `${this.baseUrl}?fk_id_jogador=eq.${idJogador}`;
+    return this.http.get<Guilda[]>(url, { headers: this.headers });
+  }
 }

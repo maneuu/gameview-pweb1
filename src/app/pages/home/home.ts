@@ -12,7 +12,8 @@ import { AuthService } from '../../core/services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
-  private readonly authService = inject(AuthService);
+  readonly authService = inject(AuthService);
 
   readonly isLoggedIn = this.authService.isLoggedIn;
+  readonly user = this.authService.user;
 }

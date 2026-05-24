@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { Jogador } from '../models/jogador.model';
 import { environment } from '../../../environments/environment';
 
@@ -27,5 +27,15 @@ export class JogadorService {
     return this.http
       .get<Jogador[]>(url, { headers: this.headers })
       .pipe(map((jogadores) => jogadores[0] ?? null));
+  }
+
+  getByIds(ids: number[]): Observable<Jogador[]> {
+    if (ids.length === 0) {
+      return of([]);
+    }
+
+    const idList = ids.join(',');
+    const url = `${this.baseUrl}?select=*&id_jogador=in.(${idList})`;
+    return this.http.get<Jogador[]>(url, { headers: this.headers });
   }
 }

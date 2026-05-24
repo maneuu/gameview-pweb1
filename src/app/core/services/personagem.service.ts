@@ -18,6 +18,11 @@ export class PersonagemService {
     return this.http.get<Personagem[]>(this.baseUrl, { headers: this.headers });
   }
 
+  getByJogador(idJogador: number): Observable<Personagem[]> {
+    const url = `${this.baseUrl}?fk_id_jogador=eq.${idJogador}`;
+    return this.http.get<Personagem[]>(url, { headers: this.headers });
+  }
+
   create(data: Personagem): Observable<Personagem> {
     return this.http.post<Personagem>(this.baseUrl, data, { headers: this.headers });
   }

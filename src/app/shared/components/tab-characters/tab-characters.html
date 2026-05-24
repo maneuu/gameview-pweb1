@@ -13,11 +13,17 @@
   </div>
 
   <div class="mt-5 space-y-4">
+    @if (isLoading()) {
+    <p class="gv-muted">Carregando personagens...</p>
+    } @else if (characters().length === 0) {
+    <p class="gv-muted">Nenhum personagem cadastrado.</p>
+    } @else {
+    @for (personagem of characters(); track personagem.id_personagem) {
     <article class="gv-card gv-surface-2">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p class="gv-stat">Aster</p>
-          <p class="mt-1 gv-muted">Classe: Guardião · Level 31</p>
+          <p class="gv-stat">{{ personagem.nome_personagem }}</p>
+          <p class="mt-1 gv-muted">Classe ID: {{ personagem.fk_id_classe }} · Raça: {{ personagem.raca }}</p>
         </div>
         <div class="flex flex-wrap gap-2">
           <button type="button" class="gv-btn gv-btn-ghost gv-btn-sm">Ver detalhes</button>
@@ -27,53 +33,21 @@
         </div>
       </div>
     </article>
-
-    <article class="gv-card gv-surface-2">
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p class="gv-stat">Nira</p>
-          <p class="mt-1 gv-muted">Classe: Arqueira · Level 28</p>
-        </div>
-        <div class="flex flex-wrap gap-2">
-          <button type="button" class="gv-btn gv-btn-ghost gv-btn-sm">Ver detalhes</button>
-          @if (isOwner()) {
-          <button type="button" class="gv-btn gv-btn-red gv-btn-sm">Remover</button>
-          }
-        </div>
-      </div>
-    </article>
-
-    <article class="gv-card gv-surface-2">
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p class="gv-stat">Orin</p>
-          <p class="mt-1 gv-muted">Classe: Mago · Level 24</p>
-        </div>
-        <div class="flex flex-wrap gap-2">
-          <button type="button" class="gv-btn gv-btn-ghost gv-btn-sm">Ver detalhes</button>
-          @if (isOwner()) {
-          <button type="button" class="gv-btn gv-btn-red gv-btn-sm">Remover</button>
-          }
-        </div>
-      </div>
-    </article>
+    }
+    }
   </div>
 </section>
 
 @if (isModalOpen()) {
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-    
-    <div class="relative w-full max-w-lg">
-      
-      <button 
-        type="button" 
-        (click)="fecharModal()" 
-        class="absolute top-10 right-2 z-10 gv-btn gv-btn-red gv-btn-sm !px-3 font-bold"
-        title="Fechar modal">
-        X
-      </button>
-      
-      <app-form-character></app-form-character>
-    </div>
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+
+  <div class="relative w-full max-w-lg">
+
+    <button type="button" (click)="fecharModal()" class="absolute top-10 right-2 z-10 gv-btn gv-btn-red gv-btn-sm !px-3 font-bold" title="Fechar modal">
+      X
+    </button>
+
+    <app-form-character></app-form-character>
   </div>
+</div>
 }

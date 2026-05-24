@@ -16,7 +16,7 @@
 
   @if (isLoggedIn()) {
   <section class="mt-8">
-    <app-player-overview [isOwner]="isLoggedIn()" />
+    <app-player-overview [isOwner]="true" [player]="user()" />
   </section>
   } @else {
   <section class="mt-8 gv-panel p-6">
