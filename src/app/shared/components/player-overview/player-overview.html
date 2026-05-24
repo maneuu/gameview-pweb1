@@ -19,23 +19,23 @@
 
   <div class="mt-6 grid gap-6">
     @if (activeTab() === 'overview') {
-    <app-tab-overview />
+    <app-tab-overview [player]="player()" />
     }
 
     @if (activeTab() === 'characters') {
-    <app-tab-characters [isOwner]="isOwner()" />
+    <app-tab-characters [isOwner]="isOwner()" [playerId]="playerId()" />
     }
 
     @if (activeTab() === 'battles') {
-    <app-tab-battles />
+    <app-tab-battles [playerId]="playerId()" />
     }
 
     @if (activeTab() === 'missions') {
-    <app-tab-missions />
+    <app-tab-missions [playerId]="playerId()" />
     }
 
     @if (activeTab() === 'allies') {
-    <app-tab-allies [isOwner]="isOwner()" />
+    <app-tab-allies [isOwner]="isOwner()" [playerId]="playerId()" />
     }
   </div>
 </section>

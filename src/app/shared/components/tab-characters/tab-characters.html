@@ -2,52 +2,82 @@
   <div class="flex items-center justify-between gap-4">
     <div>
       <h3 class="gv-title">Characters</h3>
-      <span class="gv-subtitle">Lista</span>
+      <span class="gv-subtitle">Lista de Heróis</span>
     </div>
-
     @if (isOwner()) {
-    <button type="button" class="gv-btn gv-btn-cyan gv-btn-sm">Criar novo personagem</button>
+    <button type="button" (click)="abrirModal()" class="gv-btn gv-btn-cyan gv-btn-sm">
+      Criar novo personagem
+    </button>
     }
   </div>
 
   <div class="mt-5 space-y-4">
+    @for (p of personagens(); track p.id_personagem) {
     <article class="gv-card gv-surface-2">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p class="gv-stat">Aster</p>
-          <p class="mt-1 gv-muted">Classe: Guardião · Level 31</p>
+          <p class="gv-stat">{{ p.nome_personagem }}</p>
+          <p class="mt-1 gv-muted">
+            Classe: {{ classesMap[p.fk_id_classe] || 'Desconhecida' }} · Raça: {{ p.raca }}
+          </p>
         </div>
         <div class="flex flex-wrap gap-2">
-          <button type="button" class="gv-btn gv-btn-ghost gv-btn-sm">Ver detalhes</button>
-          <button type="button" class="gv-btn gv-btn-red gv-btn-sm">Remover</button>
+          <button type="button" (click)="verDetalhes(p)" class="gv-btn gv-btn-ghost gv-btn-sm">
+            Ver detalhes
+          </button>
+          @if (isOwner()) {
+          <button type="button" (click)="removerPersonagem(p.id_personagem)" class="gv-btn gv-btn-red gv-btn-sm">
+            Remover
+          </button>
+          }
         </div>
       </div>
     </article>
-
-    <article class="gv-card gv-surface-2">
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p class="gv-stat">Nira</p>
-          <p class="mt-1 gv-muted">Classe: Arqueira · Level 28</p>
-        </div>
-        <div class="flex flex-wrap gap-2">
-          <button type="button" class="gv-btn gv-btn-ghost gv-btn-sm">Ver detalhes</button>
-          <button type="button" class="gv-btn gv-btn-red gv-btn-sm">Remover</button>
-        </div>
-      </div>
-    </article>
-
-    <article class="gv-card gv-surface-2">
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p class="gv-stat">Orin</p>
-          <p class="mt-1 gv-muted">Classe: Mago · Level 24</p>
-        </div>
-        <div class="flex flex-wrap gap-2">
-          <button type="button" class="gv-btn gv-btn-ghost gv-btn-sm">Ver detalhes</button>
-          <button type="button" class="gv-btn gv-btn-red gv-btn-sm">Remover</button>
-        </div>
-      </div>
-    </article>
+    } @empty {
+    <p class="gv-muted text-center py-6">Nenhum personagem cadastrado neste painel.</p>
+    }
   </div>
 </section>
+
+@if (isModalOpen()) {
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+  <div class="relative w-full max-w-lg max-h-[90vh] overflow-y-auto">
+    <button type="button" (click)="fecharModal()" class="absolute top-4 right-4 z-10 gv-btn gv-btn-red gv-btn-sm !px-3 font-bold">X</button>
+    <app-form-character></app-form-character>
+  </div>
+</div>
+}
+
+@if (personagemSelecionado()) {
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+  <div class="relative w-full max-w-lg max-h-[90vh] overflow-y-auto gv-panel flex flex-col gap-5">
+    <button type="button" (click)="fecharDetalhes()" class="absolute top-4 right-4 z-10 gv-btn gv-btn-red gv-btn-sm !px-3 font-bold">X</button>
+    <h2 class="gv-title text-center text-xl border-b gv-border pb-3 mt-4">{{ personagemSelecionado()?.nome_personagem }}</h2>
+    <div class="flex flex-col gap-4 text-left">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <span class="gv-subtitle block text-xs mb-1">Classe</span>
+          <div class="gv-chip text-center w-full">{{ classesMap[personagemSelecionado()?.fk_id_classe || 0] || 'Nenhuma' }}</div>
+        </div>
+        <div>
+          <span class="gv-subtitle block text-xs mb-1">Raça</span>
+          <div class="gv-chip text-center w-full">{{ personagemSelecionado()?.raca }}</div>
+        </div>
+      </div>
+      <div>
+        <span class="gv-subtitle block text-xs mb-1">Arma Principal</span>
+        <p class="gv-text text-lg bg-[#0f1526] p-2 border border-[var(--gv-border)]">{{ personagemSelecionado()?.arma_principal || 'Nenhuma equipada' }}</p>
+      </div>
+      <div>
+        <span class="gv-subtitle block text-xs mb-1">Habilidades</span>
+        <p class="gv-text text-lg bg-[#0f1526] p-2 border border-[var(--gv-border)] whitespace-pre-wrap">{{ personagemSelecionado()?.habilidades || 'Nenhuma habilidade listada' }}</p>
+      </div>
+      <div>
+        <span class="gv-subtitle block text-xs mb-1">História do Herói</span>
+        <p class="gv-muted text-base bg-[#0f1526] p-3 border border-[var(--gv-border)] whitespace-pre-wrap leading-relaxed">{{ personagemSelecionado()?.descricao || 'Sem background documentado.' }}</p>
+      </div>
+    </div>
+    <button type="button" (click)="fecharDetalhes()" class="gv-btn gv-btn-ghost w-full">Fechar Ficha</button>
+  </div>
+</div>
+}

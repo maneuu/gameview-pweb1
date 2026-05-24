@@ -14,7 +14,18 @@
     </div>
   </div>
 
+  @if (isLoggedIn()) {
   <section class="mt-8">
-    <app-player-overview [isOwner]="true" />
+    <app-player-overview [isOwner]="true" [player]="user()" />
   </section>
+  } @else {
+  <section class="mt-8 gv-panel p-6">
+    <p class="gv-subtitle">Acesso necessario</p>
+    <h2 class="mt-3 gv-title">Entre para ver seu overview</h2>
+    <p class="mt-2 gv-muted">Faca login para visualizar estatisticas pessoais e gerenciar seu perfil.</p>
+    <div class="mt-4">
+      <a routerLink="/login" class="gv-btn gv-btn-cyan gv-btn-sm">Ir para login</a>
+    </div>
+  </section>
+  }
 </section>

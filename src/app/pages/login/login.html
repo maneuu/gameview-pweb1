@@ -1,33 +1,89 @@
 <section class="gv-crt flex min-h-screen items-center justify-center gv-bg px-4 py-10 gv-text">
   <div class="gv-panel w-full max-w-md p-6 sm:p-8">
+    
+    @if (!authService.isLoggedIn()) {
     <div class="mb-8 text-center">
       <p class="gv-subtitle">Acesso</p>
-      <h1 class="mt-3 gv-title">Entrar</h1>
-      <p class="mt-3 gv-muted">Use seu ID de jogador para continuar</p>
+      <h1 class="mt-3 gv-title">
+        @if (isLoginMode()) { Entrar } @else { Criar Conta }
+      </h1>
+      <p class="mt-3 gv-muted">
+        @if (isLoginMode()) { 
+          Use seu ID de jogador para continuar 
+        } @else { 
+          Preencha os dados para se registrar 
+        }
+      </p>
     </div>
 
-    <div class="space-y-4">
-      <label class="block space-y-2">
-        <span class="gv-muted">ID do jogador</span>
-        <input type="text" placeholder="Digite seu ID" class="w-full" />
-      </label>
+    <form class="space-y-4" (ngSubmit)="submit()">
+      
+      @if (isLoginMode()) {
+        <label class="block space-y-2">
+          <span class="gv-muted">ID do jogador</span>
+          <input type="text" name="id_jogador" inputmode="numeric" placeholder="Digite seu ID" class="w-full" [(ngModel)]="idJogador" />
+        </label>
+      } @else {
+        <label class="block space-y-2">
+          <span class="gv-muted">Nome de Usuário</span>
+          <input type="text" name="nomeUsuario" placeholder="Digite seu Nick" class="w-full" [(ngModel)]="nomeUsuario" />
+        </label>
+
+        <label class="block space-y-2">
+          <span class="gv-muted">E-mail</span>
+          <input type="email" name="email" placeholder="seu@email.com" class="w-full" [(ngModel)]="email" />
+        </label>
+      }
 
       <label class="block space-y-2">
         <span class="gv-muted">Senha</span>
-        <input type="password" placeholder="Digite sua senha" class="w-full" />
+        <input type="password" name="senha" placeholder="Digite sua senha" class="w-full" [(ngModel)]="senha" />
       </label>
 
-      <button type="button" class="gv-btn gv-btn-cyan w-full">
-        Entrar
+      @if (errorMessage) {
+      <p class="gv-muted gv-red" role="alert">{{ errorMessage }}</p>
+      }
+
+      <button type="submit" class="gv-btn gv-btn-cyan w-full" [disabled]="loading">
+        @if (loading) { 
+          Processando... 
+        } @else { 
+          @if (isLoginMode()) { Entrar } @else { Cadastrar }
+        }
       </button>
 
-      <button type="button" class="gv-btn gv-btn-ghost w-full">
-        Entrar como visitante
-      </button>
+      @if (isLoginMode()) {
+        <button type="button" class="gv-btn gv-btn-ghost w-full">
+          Entrar como visitante
+        </button>
+      }
 
       <div class="pt-2 text-center gv-muted">
-        <a href="#" class="gv-cyan">Criar conta</a>
+        @if (isLoginMode()) {
+          <button type="button" class="gv-cyan bg-transparent border-none cursor-pointer hover:underline" (click)="toggleMode()">
+            Criar conta
+          </button>
+        } @else {
+          <button type="button" class="gv-cyan bg-transparent border-none cursor-pointer hover:underline" (click)="toggleMode()">
+            Já possui conta? Entrar
+          </button>
+        }
       </div>
+    </form>
+
+    } @else {
+    <div class="mb-8 text-center">
+      <p class="gv-subtitle">Conta conectada</p>
     </div>
+
+    <div class="space-y-4 text-center">
+      <p class="gv-muted">Conectado como</p>
+      <p class="gv-title">{{ authService.user()?.nome_usuario }}</p>
+      <button type="button" class="gv-btn gv-btn-ghost w-full" (click)="logout()">
+        Logout
+      </button>
+    </div>
+    }
+
   </div>
 </section>

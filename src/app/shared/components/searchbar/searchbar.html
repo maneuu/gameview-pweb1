@@ -1,6 +1,18 @@
 <div class="gv-card flex flex-col gap-3 sm:flex-row sm:items-center">
-  <input type="text" placeholder="Digite o nome do jogador" class="min-w-0 flex-1" />
-  <button type="button" class="gv-btn gv-btn-cyan">
+
+  <input
+    type="text"
+    placeholder="Digite o nome ou ID do jogador"
+    class="min-w-0 flex-1"
+    [(ngModel)]="termo"
+  />
+
+  <button
+    type="button"
+    class="gv-btn gv-btn-cyan"
+    (click)="pesquisar()"
+  >
     Buscar
   </button>
+
 </div>

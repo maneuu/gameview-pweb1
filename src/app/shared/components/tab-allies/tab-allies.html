@@ -6,39 +6,58 @@
     </div>
 
     @if (isOwner()) {
-    <button type="button" class="gv-btn gv-btn-cyan gv-btn-sm">Criar aliança</button>
+    <button type="button" (click)="abrirCriar()" class="gv-btn gv-btn-cyan gv-btn-sm">Criar aliança</button>
     }
   </div>
 
   <div class="mt-5 space-y-4">
+    @if (isLoading()) {
+    <p class="gv-muted">Carregando aliados...</p>
+    } @else if (alliesView().length === 0) {
+    <p class="gv-muted">Nenhuma alianca registrada.</p>
+    } @else {
+    @for (item of alliesView(); track item.ally.fk_id_jogador_aliado) {
     <article class="gv-card gv-surface-2">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p class="gv-stat">Lysa</p>
-          <p class="mt-1 gv-muted">Suporte e cura</p>
+          <p class="gv-stat">{{ item.nome }}</p>
+          <p class="mt-1 gv-muted">Jogador #{{ item.otherId }}</p>
         </div>
-        <button type="button" class="gv-btn gv-btn-red gv-btn-sm">Remover aliança</button>
+        @if (isOwner()) {
+        <button type="button" (click)="abrirRemover(item.ally)" class="gv-btn gv-btn-red gv-btn-sm">Remover aliança</button>
+        }
       </div>
     </article>
-
-    <article class="gv-card gv-surface-2">
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p class="gv-stat">Daren</p>
-          <p class="mt-1 gv-muted">Tanque e proteção</p>
-        </div>
-        <button type="button" class="gv-btn gv-btn-red gv-btn-sm">Remover aliança</button>
-      </div>
-    </article>
-
-    <article class="gv-card gv-surface-2">
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p class="gv-stat">Tova</p>
-          <p class="mt-1 gv-muted">Exploração e coleta</p>
-        </div>
-        <button type="button" class="gv-btn gv-btn-red gv-btn-sm">Remover aliança</button>
-      </div>
-    </article>
+    }
+    }
   </div>
 </section>
+
+@if (isCreateOpen()) {
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+  <div class="gv-panel w-full max-w-sm flex flex-col gap-4">
+    <h3 class="gv-title text-center">Nova aliança</h3>
+    <input type="number" [value]="targetId() ?? ''" (input)="targetId.set($any($event.target).valueAsNumber)" placeholder="ID do jogador" class="w-full">
+    @if (createMessage()) {
+    <p class="text-[var(--gv-red)] text-sm text-center">{{ createMessage() }}</p>
+    }
+    <div class="flex gap-2">
+      <button type="button" (click)="criarAlianca()" class="gv-btn gv-btn-cyan w-full">Confirmar</button>
+      <button type="button" (click)="fecharCriar()" class="gv-btn gv-btn-ghost w-full">Cancelar</button>
+    </div>
+  </div>
+</div>
+}
+
+@if (isDeleteOpen()) {
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+  <div class="gv-panel w-full max-w-sm flex flex-col gap-4 text-center">
+    <h3 class="gv-title">Remover aliança?</h3>
+    <p class="gv-muted">Esta ação não pode ser desfeita.</p>
+    <div class="flex gap-2">
+      <button type="button" (click)="removerAlianca()" class="gv-btn gv-btn-red w-full">Sim</button>
+      <button type="button" (click)="fecharRemover()" class="gv-btn gv-btn-ghost w-full">Não</button>
+    </div>
+  </div>
+</div>
+}
