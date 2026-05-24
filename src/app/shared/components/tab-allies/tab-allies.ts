@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, input, signal } fro
 
 import { Aliado } from '../../../core/models/aliado.model';
 import { AliadoService } from '../../../core/services/aliado.service';
+import { JogadorService } from '../../../core/services/jogador.service';
 
 @Component({
   selector: 'app-tab-allies',
@@ -13,30 +14,184 @@ import { AliadoService } from '../../../core/services/aliado.service';
 })
 export class TabAlliesComponent implements OnInit {
   private readonly aliadoService = inject(AliadoService);
+  private readonly jogadorService = inject(JogadorService);
+  private readonly storageKey = 'gameview.auth.user';
 
   readonly isOwner = input(false);
   readonly playerId = input<number | null>(null);
-  readonly allies = signal<Aliado[]>([]);
   readonly isLoading = signal(true);
+  readonly isCreateOpen = signal(false);
+  readonly isDeleteOpen = signal(false);
+  readonly targetId = signal<number | null>(null);
+  readonly pendingDelete = signal<Aliado | null>(null);
+  readonly createMessage = signal('');
+  readonly alliesView = signal<{ ally: Aliado; nome: string; otherId: number }[]>([]);
 
+  // Carrega a lista inicial
   ngOnInit(): void {
-    // Carrega os aliados do jogador.
-    const idJogador = this.playerId();
-    if (idJogador === null) {
+    this.carregarAliados();
+  }
+
+  // Busca aliados do jogador atual
+  carregarAliados(): void {
+    const idJogador = this.getCurrentUserId();
+    if (!idJogador) {
+      this.alliesView.set([]);
       this.isLoading.set(false);
       return;
     }
 
+    this.isLoading.set(true);
     this.aliadoService.getByJogador(idJogador).subscribe({
       next: (aliados) => {
-        // Guarda os aliados do jogador.
-        this.allies.set(aliados);
-        this.isLoading.set(false);
+        this.carregarNomesAliados(aliados, idJogador);
       },
       error: () => {
-        this.allies.set([]);
+        this.alliesView.set([]);
         this.isLoading.set(false);
       },
     });
+  }
+
+  // Monta a lista com nome do outro jogador
+  carregarNomesAliados(aliados: Aliado[], currentId: number): void {
+    if (aliados.length === 0) {
+      this.alliesView.set([]);
+      this.isLoading.set(false);
+      return;
+    }
+
+    const ids = this.getOutrosIds(aliados, currentId);
+    this.jogadorService.getByIds(ids).subscribe({
+      next: (jogadores) => {
+        const names = this.buildNamesMap(jogadores);
+        this.alliesView.set(this.buildView(aliados, currentId, names));
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.alliesView.set([]);
+        this.isLoading.set(false);
+      },
+    });
+  }
+
+  // Abre modal de criacao
+  abrirCriar(): void {
+    this.targetId.set(null);
+    this.createMessage.set('');
+    this.isCreateOpen.set(true);
+  }
+
+  // Fecha modal de criacao
+  fecharCriar(): void {
+    this.isCreateOpen.set(false);
+    this.createMessage.set('');
+  }
+
+  // Cria alianca simples
+  criarAlianca(): void {
+    const idJogador = this.getCurrentUserId();
+    const alvo = this.targetId();
+    if (!idJogador || !alvo) {
+      this.createMessage.set('Informe o ID do jogador.');
+      return;
+    }
+
+    this.jogadorService.getById(alvo).subscribe({
+      next: (jogador) => {
+        if (!jogador) {
+          this.createMessage.set('Jogador nao encontrado.');
+          return;
+        }
+
+        this.aliadoService
+          .create({ fk_id_jogador: idJogador, fk_id_jogador_aliado: alvo })
+          .subscribe({
+            next: () => {
+              this.isCreateOpen.set(false);
+              this.carregarAliados();
+            },
+            error: (err) => console.error('Erro ao criar alianca:', err),
+          });
+      },
+      error: (err) => console.error('Erro ao buscar jogador:', err),
+    });
+  }
+
+  // Abre confirmacao de remocao
+  abrirRemover(ally: Aliado): void {
+    this.pendingDelete.set(ally);
+    this.isDeleteOpen.set(true);
+  }
+
+  // Fecha confirmacao de remocao
+  fecharRemover(): void {
+    this.pendingDelete.set(null);
+    this.isDeleteOpen.set(false);
+  }
+
+  // Remove alianca
+  removerAlianca(): void {
+    const ally = this.pendingDelete();
+    if (!ally) {
+      return;
+    }
+
+    this.aliadoService.delete(ally.fk_id_jogador, ally.fk_id_jogador_aliado).subscribe({
+      next: () => {
+        this.fecharRemover();
+        this.carregarAliados();
+      },
+      error: (err) => console.error('Erro ao remover alianca:', err),
+    });
+  }
+
+  // Resolve o jogador da tela
+  private getCurrentUserId(): number | null {
+    return this.isOwner() ? this.getStoredUserId() : this.playerId();
+  }
+
+  // Le o id do usuario logado (localstorage)
+  private getStoredUserId(): number | null {
+    const raw = localStorage.getItem(this.storageKey);
+    if (!raw) {
+      return null;
+    }
+
+    try {
+      const parsed = JSON.parse(raw) as { id_jogador?: number } | null;
+      return typeof parsed?.id_jogador === 'number' ? parsed.id_jogador : null;
+    } catch {
+      return null;
+    }
+  }
+
+  // Pega o outro jogador da alianca
+  private getOutroId(ally: Aliado, currentId: number): number {
+    return ally.fk_id_jogador === currentId ? ally.fk_id_jogador_aliado : ally.fk_id_jogador;
+  }
+
+  // Lista unica de ids do outro jogador
+  private getOutrosIds(aliados: Aliado[], currentId: number): number[] {
+    return Array.from(new Set(aliados.map((ally) => this.getOutroId(ally, currentId))));
+  }
+
+  // Monta a view final
+  private buildView(
+    aliados: Aliado[],
+    currentId: number,
+    names: Map<number, string>,
+  ): { ally: Aliado; nome: string; otherId: number }[] {
+    return aliados.map((ally) => {
+      const otherId = this.getOutroId(ally, currentId);
+      return { ally, otherId, nome: names.get(otherId) || 'Aliado' };
+    });
+  }
+
+  // Mapa simples id -> nome
+  private buildNamesMap(
+    jogadores: { id_jogador: number; nome_usuario: string }[],
+  ): Map<number, string> {
+    return new Map(jogadores.map((j) => [j.id_jogador, j.nome_usuario]));
   }
 }
