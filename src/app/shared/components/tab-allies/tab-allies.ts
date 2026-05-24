@@ -96,6 +96,14 @@ export class TabAlliesComponent implements OnInit {
       this.createMessage.set('Informe o ID do jogador.');
       return;
     }
+    if (alvo === idJogador) {
+      this.createMessage.set('Voce nao pode se aliar a voce mesmo.');
+      return;
+    }
+    if (this.jaExisteAlianca(alvo)) {
+      this.createMessage.set('Alianca ja existe com esse jogador.');
+      return;
+    }
 
     this.jogadorService.getById(alvo).subscribe({
       next: (jogador) => {
@@ -193,5 +201,10 @@ export class TabAlliesComponent implements OnInit {
     jogadores: { id_jogador: number; nome_usuario: string }[],
   ): Map<number, string> {
     return new Map(jogadores.map((j) => [j.id_jogador, j.nome_usuario]));
+  }
+
+  // Verifica se ja existe alianca
+  private jaExisteAlianca(alvo: number): boolean {
+    return this.alliesView().some((item) => item.otherId === alvo);
   }
 }
