@@ -19,7 +19,7 @@ export class AliadoService {
   }
 
   getByJogador(idJogador: number): Observable<Aliado[]> {
-    const url = `${this.baseUrl}?fk_id_jogador=eq.${idJogador}`;
+    const url = `${this.baseUrl}?or=(fk_id_jogador.eq.${idJogador},fk_id_jogador_aliado.eq.${idJogador})`;
     return this.http.get<Aliado[]>(url, { headers: this.headers });
   }
 
