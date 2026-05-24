@@ -17,6 +17,7 @@ export class JogadorService {
   getAll(): Observable<Jogador[]> {
     return this.http.get<Jogador[]>(this.baseUrl, { headers: this.headers });
   }
+
   getTop10ByPontuacao(): Observable<Jogador[]> {
     const url = `${this.baseUrl}?select=*&order=pontuacao.desc&limit=10`;
     return this.http.get<Jogador[]>(url, { headers: this.headers });
@@ -37,5 +38,14 @@ export class JogadorService {
     const idList = ids.join(',');
     const url = `${this.baseUrl}?select=*&id_jogador=in.(${idList})`;
     return this.http.get<Jogador[]>(url, { headers: this.headers });
+  }
+
+  create(jogador: Partial<Jogador>): Observable<Jogador> {
+    // O cabeçalho 'Prefer: return=representation' força o Supabase a devolver a linha inserida
+    const headers = this.headers.set('Prefer', 'return=representation');
+    
+    return this.http
+      .post<Jogador[]>(this.baseUrl, jogador, { headers })
+      .pipe(map((jogadores) => jogadores[0]));
   }
 }
