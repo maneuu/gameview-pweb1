@@ -7,18 +7,18 @@
   <div class="mt-5 space-y-4">
     @if (isLoading()) {
     <p class="gv-muted">Carregando batalhas...</p>
-    } @else if (battles().length === 0) {
+    } @else if (battlesView().length === 0) {
     <p class="gv-muted">Nenhuma batalha registrada.</p>
     } @else {
-    @for (battle of battles(); track battle.id_batalha) {
-    <article class="gv-card gv-surface-2">
+    @for (item of battlesView(); track item.battle.id_batalha) {
+    <article class="gv-card gv-surface-2" [class.gv-green]="item.battle.resultado_batalha === 'Vitoria'" [class.gv-red]="item.battle.resultado_batalha === 'Derrota'" [class.gv-yellow]="item.battle.resultado_batalha === 'Fuga'">
       <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p class="gv-stat">Monstro ID: {{ battle.fk_id_monstro }}</p>
-          <p class="mt-1 gv-muted">Batalha #{{ battle.id_batalha }}</p>
+          <p class="gv-stat">{{ item.nome }}</p>
+          <p class="mt-1 gv-muted">Tipo: {{ item.tipo }}</p>
         </div>
-        <span class="gv-chip" [class.gv-red]="battle.resultado_batalha !== 'Vitória'">
-          {{ battle.resultado_batalha }}
+        <span class="gv-chip" [class.gv-green]="item.battle.resultado_batalha === 'Vitoria'" [class.gv-red]="item.battle.resultado_batalha === 'Derrota'" [class.gv-yellow]="item.battle.resultado_batalha === 'Fuga'">
+          {{ item.battle.resultado_batalha }}
         </span>
       </div>
     </article>

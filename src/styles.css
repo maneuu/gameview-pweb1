@@ -143,6 +143,27 @@ a:hover {
   padding: 16px;
 }
 
+.gv-card.gv-green {
+  border-color: var(--gv-green);
+  box-shadow:
+    0 0 0 var(--gv-pixel) rgba(125, 255, 106, 0.35),
+    8px 8px 0 var(--gv-shadow);
+}
+
+.gv-card.gv-red {
+  border-color: var(--gv-red);
+  box-shadow:
+    0 0 0 var(--gv-pixel) rgba(255, 61, 90, 0.35),
+    8px 8px 0 var(--gv-shadow);
+}
+
+.gv-card.gv-yellow {
+  border-color: var(--gv-yellow);
+  box-shadow:
+    0 0 0 var(--gv-pixel) rgba(255, 210, 31, 0.35),
+    8px 8px 0 var(--gv-shadow);
+}
+
 .gv-card-header {
   display: flex;
   align-items: center;
@@ -158,6 +179,21 @@ a:hover {
   border: var(--gv-pixel) solid var(--gv-border);
   box-shadow: 3px 3px 0 var(--gv-shadow);
   color: var(--gv-cyan);
+}
+
+.gv-chip.gv-green {
+  color: var(--gv-green);
+  border-color: var(--gv-green);
+}
+
+.gv-chip.gv-red {
+  color: var(--gv-red);
+  border-color: var(--gv-red);
+}
+
+.gv-chip.gv-yellow {
+  color: var(--gv-yellow);
+  border-color: var(--gv-yellow);
 }
 
 .gv-btn {

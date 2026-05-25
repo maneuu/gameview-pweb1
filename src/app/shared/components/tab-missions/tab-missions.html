@@ -7,16 +7,19 @@
   <div class="mt-5 space-y-4">
     @if (isLoading()) {
     <p class="gv-muted">Carregando missoes...</p>
-    } @else if (missions().length === 0) {
+    } @else if (missionsView().length === 0) {
     <p class="gv-muted">Nenhuma missao registrada.</p>
     } @else {
-    @for (mission of missions(); track mission.id_missao_registro) {
-    <article class="gv-card gv-surface-2">
+    @for (item of missionsView(); track item.mission.id_missao_registro) {
+    <article class="gv-card gv-surface-2" [class.gv-green]="item.mission.status === 'concluida'" [class.gv-red]="item.mission.status === 'falhada'" [class.gv-yellow]="item.mission.status === 'em_andamento'">
       <div class="flex items-center justify-between gap-4">
         <div>
-          <p class="gv-stat">Missao ID: {{ mission.fk_id_missao }}</p>
-          <p class="mt-1 gv-muted">{{ mission.status }}</p>
+          <p class="gv-stat">{{ item.nome }}</p>
+          <p class="mt-1 gv-muted">Dificuldade: {{ item.dificuldade }}</p>
         </div>
+        <span class="gv-chip" [class.gv-green]="item.mission.status === 'concluida'" [class.gv-red]="item.mission.status === 'falhada'" [class.gv-yellow]="item.mission.status === 'em_andamento'">
+          {{ item.mission.status }}
+        </span>
       </div>
     </article>
     }

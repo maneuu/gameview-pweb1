@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, input, signal } fro
 
 import { MissaoRegistro } from '../../../core/models/missao-registro.model';
 import { MissaoRegistroService } from '../../../core/services/missao-registro.service';
+import { MissaoService } from '../../../core/services/missao.service';
 
 @Component({
   selector: 'app-tab-missions',
@@ -13,29 +14,69 @@ import { MissaoRegistroService } from '../../../core/services/missao-registro.se
 })
 export class TabMissionsComponent implements OnInit {
   private readonly missaoRegistroService = inject(MissaoRegistroService);
+  private readonly missaoService = inject(MissaoService);
 
   readonly playerId = input<number | null>(null);
-  readonly missions = signal<MissaoRegistro[]>([]);
+  readonly missionsView = signal<{ mission: MissaoRegistro; nome: string; dificuldade: string }[]>(
+    [],
+  );
   readonly isLoading = signal(true);
 
+  // Carrega ao iniciar
   ngOnInit(): void {
-    // Carrega as missoes do jogador.
+    this.carregarMissoes();
+  }
+
+  // Busca missoes e detalhes
+  carregarMissoes(): void {
     const idJogador = this.playerId();
     if (idJogador === null) {
+      this.missionsView.set([]);
       this.isLoading.set(false);
       return;
     }
 
+    this.isLoading.set(true);
     this.missaoRegistroService.getByJogador(idJogador).subscribe({
       next: (registros) => {
-        // Guarda as missoes do jogador.
-        this.missions.set(registros);
-        this.isLoading.set(false);
+        if (registros.length === 0) {
+          this.missionsView.set([]);
+          this.isLoading.set(false);
+          return;
+        }
+
+        const ids = Array.from(new Set(registros.map((mission) => mission.fk_id_missao)));
+        this.missaoService.getByIds(ids).subscribe({
+          next: (missoes) => {
+            this.missionsView.set(this.buildView(registros, missoes));
+            this.isLoading.set(false);
+          },
+          error: () => {
+            this.missionsView.set([]);
+            this.isLoading.set(false);
+          },
+        });
       },
       error: () => {
-        this.missions.set([]);
+        this.missionsView.set([]);
         this.isLoading.set(false);
       },
+    });
+  }
+
+  // Monta o card com nome e dificuldade
+  private buildView(
+    registros: MissaoRegistro[],
+    missoes: { id_missao: number; nome_missao: string; dificuldade: string }[],
+  ) {
+    const map = new Map(missoes.map((m) => [m.id_missao, m]));
+    return registros.map((mission) => {
+      const missao = map.get(mission.fk_id_missao);
+      return {
+        mission,
+        nome: missao?.nome_missao || 'Missao',
+        dificuldade: missao?.dificuldade || '-',
+      };
     });
   }
 }

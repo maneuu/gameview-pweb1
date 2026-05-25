@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Monstro } from '../models/monstro.model';
 import { environment } from '../../../environments/environment';
 
@@ -16,5 +16,15 @@ export class MonstroService {
 
   getAll(): Observable<Monstro[]> {
     return this.http.get<Monstro[]>(this.baseUrl, { headers: this.headers });
+  }
+
+  getByIds(ids: number[]): Observable<Monstro[]> {
+    if (ids.length === 0) {
+      return of([]);
+    }
+
+    const idList = ids.join(',');
+    const url = `${this.baseUrl}?id_monstro=in.(${idList})`;
+    return this.http.get<Monstro[]>(url, { headers: this.headers });
   }
 }

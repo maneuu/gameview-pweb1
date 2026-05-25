@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Missao } from '../models/missao.model';
 import { environment } from '../../../environments/environment';
 
@@ -16,5 +16,15 @@ export class MissaoService {
 
   getAll(): Observable<Missao[]> {
     return this.http.get<Missao[]>(this.baseUrl, { headers: this.headers });
+  }
+
+  getByIds(ids: number[]): Observable<Missao[]> {
+    if (ids.length === 0) {
+      return of([]);
+    }
+
+    const idList = ids.join(',');
+    const url = `${this.baseUrl}?id_missao=in.(${idList})`;
+    return this.http.get<Missao[]>(url, { headers: this.headers });
   }
 }
