@@ -103,8 +103,8 @@ export class FormCharacterComponent {
 
     const novoPersonagem = {
       nomePersonagem: this.nome(),
-      fk_id_jogador,
-      fk_id_classe: Number(this.classeId()),
+      jogador: { idJogador: fk_id_jogador },
+      classe: { idClasse: Number(this.classeId()) },
       raca: this.racaSelecionada(),
       descricao: this.descricaoText(),
       armaPrincipal: this.arma(),

@@ -16,15 +16,15 @@
     } @else if (alliesView().length === 0) {
     <p class="gv-muted">Nenhuma alianca registrada.</p>
     } @else {
-    @for (item of alliesView(); track item.ally.fk_id_jogador_aliado) {
+    @for (item of alliesView(); track item.fk_id_jogador_aliado) {
     <article class="gv-card gv-surface-2">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p class="gv-stat">{{ item.nome }}</p>
-          <p class="mt-1 gv-muted">Jogador #{{ item.otherId }}</p>
+          <p class="gv-stat">{{ item.aliado?.nomeUsuario || 'Aliado' }}</p>
+          <p class="mt-1 gv-muted">Jogador #{{ item.aliado?.idJogador || item.fk_id_jogador_aliado }}</p>
         </div>
         @if (isOwner()) {
-        <button type="button" (click)="abrirRemover(item.ally)" class="gv-btn gv-btn-red gv-btn-sm">Remover aliança</button>
+        <button type="button" (click)="abrirRemover(item)" class="gv-btn gv-btn-red gv-btn-sm">Remover aliança</button>
         }
       </div>
     </article>

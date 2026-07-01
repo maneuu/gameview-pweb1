@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { MissaoRegistro } from '../models/missao-registro.model';
 import { environment } from '../../../environments/environment';
 
@@ -17,8 +17,6 @@ export class MissaoRegistroService {
   }
 
   getByJogador(idJogador: number): Observable<MissaoRegistro[]> {
-    return this.getAll().pipe(
-      map((registros) => registros.filter((registro) => registro.fk_id_jogador === idJogador)),
-    );
+    return this.http.get<MissaoRegistro[]>(`${this.baseUrl}/get/jogador/${idJogador}`);
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Personagem } from '../models/personagem.model';
 import { environment } from '../../../environments/environment';
 
@@ -17,11 +17,7 @@ export class PersonagemService {
   }
 
   getByJogador(idJogador: number): Observable<Personagem[]> {
-    return this.getAll().pipe(
-      map((personagens) =>
-        personagens.filter((personagem) => personagem.fk_id_jogador === idJogador),
-      ),
-    );
+    return this.http.get<Personagem[]>(`${this.baseUrl}/get/jogador/${idJogador}`);
   }
 
   create(data: Personagem): Observable<Personagem> {

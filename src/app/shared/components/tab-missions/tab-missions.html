@@ -10,15 +10,15 @@
     } @else if (missionsView().length === 0) {
     <p class="gv-muted">Nenhuma missao registrada.</p>
     } @else {
-    @for (item of missionsView(); track item.mission.idMissaoRegistro) {
-    <article class="gv-card gv-surface-2" [class.gv-green]="item.mission.status === 'concluida'" [class.gv-red]="item.mission.status === 'falhada'" [class.gv-yellow]="item.mission.status === 'em_andamento'">
+    @for (item of missionsView(); track item.idMissaoRegistro) {
+    <article class="gv-card gv-surface-2" [class.gv-green]="item.status === 'concluida'" [class.gv-red]="item.status === 'falhada'" [class.gv-yellow]="item.status === 'em_andamento'">
       <div class="flex items-center justify-between gap-4">
         <div>
-          <p class="gv-stat">{{ item.nome }}</p>
-          <p class="mt-1 gv-muted">Dificuldade: {{ item.dificuldade }}</p>
+          <p class="gv-stat">{{ item.missao?.nomeMissao || 'Missao' }}</p>
+          <p class="mt-1 gv-muted">Dificuldade: {{ item.missao?.dificuldade || '-' }}</p>
         </div>
-        <span class="gv-chip" [class.gv-green]="item.mission.status === 'concluida'" [class.gv-red]="item.mission.status === 'falhada'" [class.gv-yellow]="item.mission.status === 'em_andamento'">
-          {{ item.mission.status }}
+        <span class="gv-chip" [class.gv-green]="item.status === 'concluida'" [class.gv-red]="item.status === 'falhada'" [class.gv-yellow]="item.status === 'em_andamento'">
+          {{ item.status }}
         </span>
       </div>
     </article>

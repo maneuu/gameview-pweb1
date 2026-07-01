@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, input, signal } fro
 
 import { MissaoRegistro } from '../../../core/models/missao-registro.model';
 import { MissaoRegistroService } from '../../../core/services/missao-registro.service';
-import { MissaoService } from '../../../core/services/missao.service';
 
 @Component({
   selector: 'app-tab-missions',
@@ -14,12 +13,9 @@ import { MissaoService } from '../../../core/services/missao.service';
 })
 export class TabMissionsComponent implements OnInit {
   private readonly missaoRegistroService = inject(MissaoRegistroService);
-  private readonly missaoService = inject(MissaoService);
 
   readonly playerId = input<number | null>(null);
-  readonly missionsView = signal<{ mission: MissaoRegistro; nome: string; dificuldade: string }[]>(
-    [],
-  );
+  readonly missionsView = signal<MissaoRegistro[]>([]);
   readonly isLoading = signal(true);
 
   // Carrega ao iniciar
@@ -39,44 +35,13 @@ export class TabMissionsComponent implements OnInit {
     this.isLoading.set(true);
     this.missaoRegistroService.getByJogador(idJogador).subscribe({
       next: (registros) => {
-        if (registros.length === 0) {
-          this.missionsView.set([]);
-          this.isLoading.set(false);
-          return;
-        }
-
-        const ids = Array.from(new Set(registros.map((mission) => mission.fk_id_missao)));
-        this.missaoService.getByIds(ids).subscribe({
-          next: (missoes) => {
-            this.missionsView.set(this.buildView(registros, missoes));
-            this.isLoading.set(false);
-          },
-          error: () => {
-            this.missionsView.set([]);
-            this.isLoading.set(false);
-          },
-        });
+        this.missionsView.set(registros);
+        this.isLoading.set(false);
       },
       error: () => {
         this.missionsView.set([]);
         this.isLoading.set(false);
       },
-    });
-  }
-
-  // Monta o card com nome e dificuldade
-  private buildView(
-    registros: MissaoRegistro[],
-    missoes: { idMissao: number; nomeMissao: string; dificuldade: string }[],
-  ) {
-    const map = new Map(missoes.map((m) => [m.idMissao, m]));
-    return registros.map((mission) => {
-      const missao = map.get(mission.fk_id_missao);
-      return {
-        mission,
-        nome: missao?.nomeMissao || 'Missao',
-        dificuldade: missao?.dificuldade || '-',
-      };
     });
   }
 }

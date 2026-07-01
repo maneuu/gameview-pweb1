@@ -25,7 +25,7 @@ export class TabAlliesComponent implements OnInit {
   readonly targetId = signal<number | null>(null);
   readonly pendingDelete = signal<Aliado | null>(null);
   readonly createMessage = signal('');
-  readonly alliesView = signal<{ ally: Aliado; nome: string; otherId: number }[]>([]);
+  readonly alliesView = signal<Aliado[]>([]);
 
   // Carrega a lista inicial
   ngOnInit(): void {
@@ -44,28 +44,7 @@ export class TabAlliesComponent implements OnInit {
     this.isLoading.set(true);
     this.aliadoService.getByJogador(idJogador).subscribe({
       next: (aliados) => {
-        this.carregarNomesAliados(aliados, idJogador);
-      },
-      error: () => {
-        this.alliesView.set([]);
-        this.isLoading.set(false);
-      },
-    });
-  }
-
-  // Monta a lista com nome do outro jogador
-  carregarNomesAliados(aliados: Aliado[], currentId: number): void {
-    if (aliados.length === 0) {
-      this.alliesView.set([]);
-      this.isLoading.set(false);
-      return;
-    }
-
-    const ids = this.getOutrosIds(aliados, currentId);
-    this.jogadorService.getByIds(ids).subscribe({
-      next: (jogadores) => {
-        const names = this.buildNamesMap(jogadores);
-        this.alliesView.set(this.buildView(aliados, currentId, names));
+        this.alliesView.set(aliados);
         this.isLoading.set(false);
       },
       error: () => {
@@ -113,7 +92,10 @@ export class TabAlliesComponent implements OnInit {
         }
 
         this.aliadoService
-          .create({ fk_id_jogador: idJogador, fk_id_jogador_aliado: alvo })
+          .create({
+            jogador: { idJogador },
+            aliado: { idJogador: alvo },
+          })
           .subscribe({
             next: () => {
               this.isCreateOpen.set(false);
@@ -145,7 +127,12 @@ export class TabAlliesComponent implements OnInit {
       return;
     }
 
-    this.aliadoService.delete(ally.fk_id_jogador, ally.fk_id_jogador_aliado).subscribe({
+    if (!ally.id) {
+      console.error('Nao foi possivel localizar o id da alianca para remocao.', ally);
+      return;
+    }
+
+    this.aliadoService.delete(ally.id).subscribe({
       next: () => {
         this.fecharRemover();
         this.carregarAliados();
@@ -174,37 +161,13 @@ export class TabAlliesComponent implements OnInit {
     }
   }
 
-  // Pega o outro jogador da alianca
-  private getOutroId(ally: Aliado, currentId: number): number {
-    return ally.fk_id_jogador === currentId ? ally.fk_id_jogador_aliado : ally.fk_id_jogador;
-  }
-
-  // Lista unica de ids do outro jogador
-  private getOutrosIds(aliados: Aliado[], currentId: number): number[] {
-    return Array.from(new Set(aliados.map((ally) => this.getOutroId(ally, currentId))));
-  }
-
-  // Monta a view final
-  private buildView(
-    aliados: Aliado[],
-    currentId: number,
-    names: Map<number, string>,
-  ): { ally: Aliado; nome: string; otherId: number }[] {
-    return aliados.map((ally) => {
-      const otherId = this.getOutroId(ally, currentId);
-      return { ally, otherId, nome: names.get(otherId) || 'Aliado' };
-    });
-  }
-
-  // Mapa simples id -> nome
-  private buildNamesMap(
-    jogadores: { idJogador: number; nomeUsuario: string }[],
-  ): Map<number, string> {
-    return new Map(jogadores.map((j) => [j.idJogador, j.nomeUsuario]));
-  }
-
   // Verifica se ja existe alianca
   private jaExisteAlianca(alvo: number): boolean {
-    return this.alliesView().some((item) => item.otherId === alvo);
+    return this.alliesView().some(
+      (item) =>
+        item.fk_id_jogador_aliado === alvo ||
+        item.aliado?.idJogador === alvo ||
+        item.jogador?.idJogador === alvo,
+    );
   }
 }

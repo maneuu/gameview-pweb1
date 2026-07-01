@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Aliado } from '../models/aliado.model';
 import { environment } from '../../../environments/environment';
 
@@ -17,23 +17,14 @@ export class AliadoService {
   }
 
   getByJogador(idJogador: number): Observable<Aliado[]> {
-    return this.getAll().pipe(
-      map((aliados) =>
-        aliados.filter(
-          (aliado) =>
-            aliado.fk_id_jogador === idJogador || aliado.fk_id_jogador_aliado === idJogador,
-        ),
-      ),
-    );
+    return this.http.get<Aliado[]>(`${this.baseUrl}/get/jogador/${idJogador}`);
   }
 
-  create(data: Aliado): Observable<Aliado> {
+  create(data: Partial<Aliado>): Observable<Aliado> {
     return this.http.post<Aliado>(`${this.baseUrl}/create`, data, { headers: this.headers });
   }
 
-  delete(fk_id_jogador: number, fk_id_jogador_aliado: number): Observable<void> {
-    return this.http.delete<void>(
-      `${this.baseUrl}/delete/${fk_id_jogador}/${fk_id_jogador_aliado}`,
-    );
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
   }
 }

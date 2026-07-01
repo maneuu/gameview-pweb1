@@ -18,7 +18,7 @@
         <div>
           <p class="gv-stat">{{ p.nomePersonagem }}</p>
           <p class="mt-1 gv-muted">
-            Classe: {{ classesMap[p.fk_id_classe] || 'Desconhecida' }} · Raça: {{ p.raca }}
+            Classe: {{ p.classe?.nomeClasse || classesMap[p.fk_id_classe] || 'Desconhecida' }} · Raça: {{ p.raca }}
           </p>
         </div>
         <div class="flex flex-wrap gap-2">
@@ -57,7 +57,7 @@
       <div class="grid grid-cols-2 gap-4">
         <div>
           <span class="gv-subtitle block text-xs mb-1">Classe</span>
-          <div class="gv-chip text-center w-full">{{ classesMap[personagemSelecionado()?.fk_id_classe || 0] || 'Nenhuma' }}</div>
+          <div class="gv-chip text-center w-full">{{ personagemSelecionado()?.classe?.nomeClasse || classesMap[personagemSelecionado()?.fk_id_classe || 0] || 'Nenhuma' }}</div>
         </div>
         <div>
           <span class="gv-subtitle block text-xs mb-1">Raça</span>
