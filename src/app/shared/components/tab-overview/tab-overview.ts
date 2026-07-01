@@ -21,7 +21,7 @@ export class TabOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     // Carrega a guilda do jogador.
-    const idJogador = this.player()?.id_jogador ?? null;
+    const idJogador = this.player()?.idJogador ?? null;
     if (idJogador === null) {
       this.isLoading.set(false);
       return;

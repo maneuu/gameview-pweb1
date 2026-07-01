@@ -16,7 +16,7 @@ export class SidebarComponent {
   readonly user = this.authService.user;
   readonly isLoggedIn = this.authService.isLoggedIn;
   readonly initials = computed(() => {
-    const name = this.user()?.nome_usuario?.trim();
+    const name = this.user()?.nomeUsuario?.trim();
     if (!name) {
       return 'GV';
     }

@@ -1,5 +1,5 @@
 export interface Guilda {
-  id_guilda: number;
-  nome_guilda: string;
+  idGuilda: number;
+  nomeGuilda: string;
   fk_id_jogador: number;
 }

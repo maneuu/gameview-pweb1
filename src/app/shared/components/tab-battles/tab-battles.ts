@@ -65,14 +65,14 @@ export class TabBattlesComponent implements OnInit {
   // Monta o card com nome e tipo
   private buildView(
     registros: BatalhaRegistro[],
-    monstros: { id_monstro: number; nome_monstro: string; tipo: string }[],
+    monstros: { idMonstro: number; nomeMonstro: string; tipo: string }[],
   ) {
-    const map = new Map(monstros.map((m) => [m.id_monstro, m]));
+    const map = new Map(monstros.map((m) => [m.idMonstro, m]));
     return registros.map((battle) => {
       const monstro = map.get(battle.fk_id_monstro);
       return {
         battle,
-        nome: monstro?.nome_monstro || 'Monstro',
+        nome: monstro?.nomeMonstro || 'Monstro',
         tipo: monstro?.tipo || '-',
       };
     });

@@ -16,34 +16,29 @@
 
     <div class="mx-auto mt-8 max-w-2xl">
 
-      <app-searchbar
-        (buscar)="buscarJogador($event)"
-      />
+      <app-searchbar (buscar)="buscarJogador($event)" />
 
     </div>
 
     <div class="mt-8 space-y-4">
 
-      @for (jogador of resultados(); track jogador.id_jogador) {
+      @for (jogador of resultados(); track jogador.idJogador) {
 
-        <div class="gv-card">
+      <div class="gv-card">
 
-          <h2 class="text-xl font-bold">
-            {{ jogador.nome_usuario }}
-          </h2>
+        <h2 class="text-xl font-bold">
+          {{ jogador.nomeUsuario }}
+        </h2>
 
-          <p>
-            ID: {{ jogador.id_jogador }}
-          </p>
+        <p>
+          ID: {{ jogador.idJogador }}
+        </p>
 
-          <button
-            class="gv-btn gv-btn-cyan mt-4"
-            (click)="abrirPerfil(jogador.id_jogador)"
-          >
-            Ver overview
-          </button>
+        <button class="gv-btn gv-btn-cyan mt-4" (click)="abrirPerfil(jogador.idJogador)">
+          Ver overview
+        </button>
 
-        </div>
+      </div>
 
       }
 

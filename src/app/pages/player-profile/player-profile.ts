@@ -37,7 +37,7 @@ export class PlayerProfileComponent implements OnInit {
       next: (player) => {
         // Atualiza o perfil do jogador.
         this.player.set(player);
-        this.isOwner.set(Boolean(player && storedId === player.id_jogador));
+        this.isOwner.set(Boolean(player && storedId === player.idJogador));
         this.isLoading.set(false);
       },
       error: () => {
@@ -56,8 +56,8 @@ export class PlayerProfileComponent implements OnInit {
     }
 
     try {
-      const parsed = JSON.parse(raw) as { id_jogador?: number } | null;
-      return typeof parsed?.id_jogador === 'number' ? parsed.id_jogador : null;
+      const parsed = JSON.parse(raw) as { idJogador?: number } | null;
+      return typeof parsed?.idJogador === 'number' ? parsed.idJogador : null;
     } catch {
       return null;
     }

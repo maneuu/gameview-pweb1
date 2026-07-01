@@ -1,5 +1,5 @@
 export interface Monstro {
-  id_monstro: number;
-  nome_monstro: string;
+  idMonstro: number;
+  nomeMonstro: string;
   tipo: string;
 }

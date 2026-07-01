@@ -1,25 +1,24 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { BatalhaRegistro } from '../models/batalha-registro.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class BatalhaRegistroService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = `${environment.supabaseUrl}/rest/v1/batalharegistro`;
+  private readonly baseUrl = `${environment.apiUrl}/batalharegistro`;
   private readonly headers = new HttpHeaders({
-    apikey: environment.supabaseKey,
-    Authorization: `Bearer ${environment.supabaseKey}`,
     'Content-Type': 'application/json',
   });
 
   getAll(): Observable<BatalhaRegistro[]> {
-    return this.http.get<BatalhaRegistro[]>(this.baseUrl, { headers: this.headers });
+    return this.http.get<BatalhaRegistro[]>(`${this.baseUrl}/all`);
   }
 
   getByJogador(idJogador: number): Observable<BatalhaRegistro[]> {
-    const url = `${this.baseUrl}?fk_id_jogador=eq.${idJogador}`;
-    return this.http.get<BatalhaRegistro[]>(url, { headers: this.headers });
+    return this.getAll().pipe(
+      map((registros) => registros.filter((registro) => registro.fk_id_jogador === idJogador)),
+    );
   }
 }

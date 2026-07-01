@@ -22,13 +22,13 @@ export class LoginComponent {
   nomeUsuario = '';
   email = '';
   senha = '';
-  
+
   errorMessage: string | null = null;
   loading = false;
 
   // Função para alternar entre as telas e limpar os dados
   toggleMode(): void {
-    this.isLoginMode.update(m => !m);
+    this.isLoginMode.update((m) => !m);
     this.errorMessage = null;
     this.idJogador = '';
     this.nomeUsuario = '';
@@ -61,7 +61,6 @@ export class LoginComponent {
 
         this.senha = '';
       });
-      
     } else {
       const nomeValue = this.nomeUsuario.trim();
       const emailValue = this.email.trim();
@@ -74,12 +73,12 @@ export class LoginComponent {
       }
 
       const novoJogador = {
-        nome_usuario: nomeValue,
+        nomeUsuario: nomeValue,
         email: emailValue,
         senha: senhaValue,
         nivel: 1,
         experiencia: 0,
-        pontuacao: 0
+        pontuacao: 0,
       };
 
       this.jogadorService.create(novoJogador).subscribe({
@@ -87,7 +86,7 @@ export class LoginComponent {
           this.loading = false;
           if (jogadorCriado) {
             // Mostra o ID gerado para que ele saiba como logar depois
-            alert(`Conta criada com sucesso! Seu ID de acesso é: ${jogadorCriado.id_jogador}`);
+            alert(`Conta criada com sucesso! Seu ID de acesso é: ${jogadorCriado.idJogador}`);
             this.toggleMode(); // Retorna automaticamente para a aba de login
           }
         },
@@ -95,7 +94,7 @@ export class LoginComponent {
           this.loading = false;
           this.errorMessage = 'Erro ao criar conta. Tente outro nome ou e-mail.';
           console.error(err);
-        }
+        },
       });
     }
   }

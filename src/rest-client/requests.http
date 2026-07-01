@@ -1,60 +1,30 @@
 
-@baseUrl =
-// https://url.supabase.co
-@apikey =
-// sb_publishable_key_xxx
+@baseUrl = https://game-view-api.onrender.com
 ### Jogador - get all
 
 ### Jogador - get all
-GET {{baseUrl}}/rest/v1/jogador
-apikey: {{apikey}}
-Authorization: Bearer {{apikey}}
-Content-Type: application/json
+GET {{baseUrl}}/jogador/all
 
 ### Classe - get all
-GET {{baseUrl}}/rest/v1/classe
-apikey: {{apikey}}
-Authorization: Bearer {{apikey}}
-Content-Type: application/json
+GET {{baseUrl}}/classe/all
 
 ### Personagem - get all
-GET {{baseUrl}}/rest/v1/personagem
-apikey: {{apikey}}
-Authorization: Bearer {{apikey}}
-Content-Type: application/json
+GET {{baseUrl}}/personagem/all
 
 ### Guilda - get all
-GET {{baseUrl}}/rest/v1/guilda
-apikey: {{apikey}}
-Authorization: Bearer {{apikey}}
-Content-Type: application/json
+GET {{baseUrl}}/guilda/all
 
 ### Missao - get all
-GET {{baseUrl}}/rest/v1/missao
-apikey: {{apikey}}
-Authorization: Bearer {{apikey}}
-Content-Type: application/json
+GET {{baseUrl}}/missao/all
 
 ### Monstro - get all
-GET {{baseUrl}}/rest/v1/monstro
-apikey: {{apikey}}
-Authorization: Bearer {{apikey}}
-Content-Type: application/json
+GET {{baseUrl}}/monstro/all
 
 ### Missao Registro - get all
-GET {{baseUrl}}/rest/v1/missaoregistro
-apikey: {{apikey}}
-Authorization: Bearer {{apikey}}
-Content-Type: application/json
+GET {{baseUrl}}/missaoregistro/all
 
 ### Batalha Registro - get all
-GET {{baseUrl}}/rest/v1/batalharegistro
-apikey: {{apikey}}
-Authorization: Bearer {{apikey}}
-Content-Type: application/json
+GET {{baseUrl}}/batalharegistro/all
 
 ### Aliado - get all
-GET {{baseUrl}}/rest/v1/aliado
-apikey: {{apikey}}
-Authorization: Bearer {{apikey}}
-Content-Type: application/json
+GET {{baseUrl}}/aliado/all

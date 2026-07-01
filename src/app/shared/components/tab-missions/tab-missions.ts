@@ -67,14 +67,14 @@ export class TabMissionsComponent implements OnInit {
   // Monta o card com nome e dificuldade
   private buildView(
     registros: MissaoRegistro[],
-    missoes: { id_missao: number; nome_missao: string; dificuldade: string }[],
+    missoes: { idMissao: number; nomeMissao: string; dificuldade: string }[],
   ) {
-    const map = new Map(missoes.map((m) => [m.id_missao, m]));
+    const map = new Map(missoes.map((m) => [m.idMissao, m]));
     return registros.map((mission) => {
       const missao = map.get(mission.fk_id_missao);
       return {
         mission,
-        nome: missao?.nome_missao || 'Missao',
+        nome: missao?.nomeMissao || 'Missao',
         dificuldade: missao?.dificuldade || '-',
       };
     });

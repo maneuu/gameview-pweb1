@@ -10,11 +10,11 @@
 
     <div class="space-y-4">
 
-      @for (jogador of jogadores(); track jogador.id_jogador; let i = $index) {
+      @for (jogador of jogadores(); track jogador.idJogador; let i = $index) {
 
       <app-card>
         <span card-title>
-          #{{ i + 1 }} {{ jogador.nome_usuario }}
+          #{{ i + 1 }} {{ jogador.nomeUsuario }}
         </span>
 
         <span card-content>

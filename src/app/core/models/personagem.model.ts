@@ -1,10 +1,10 @@
 export interface Personagem {
-  id_personagem: number;
-  nome_personagem: string;
+  idPersonagem: number;
+  nomePersonagem: string;
   fk_id_jogador: number;
   fk_id_classe: number;
   descricao: string;
-  arma_principal: string;
+  armaPrincipal: string;
   habilidades: string;
   raca: string;
 }

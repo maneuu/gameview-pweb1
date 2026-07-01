@@ -167,8 +167,8 @@ export class TabAlliesComponent implements OnInit {
     }
 
     try {
-      const parsed = JSON.parse(raw) as { id_jogador?: number } | null;
-      return typeof parsed?.id_jogador === 'number' ? parsed.id_jogador : null;
+      const parsed = JSON.parse(raw) as { idJogador?: number } | null;
+      return typeof parsed?.idJogador === 'number' ? parsed.idJogador : null;
     } catch {
       return null;
     }
@@ -198,9 +198,9 @@ export class TabAlliesComponent implements OnInit {
 
   // Mapa simples id -> nome
   private buildNamesMap(
-    jogadores: { id_jogador: number; nome_usuario: string }[],
+    jogadores: { idJogador: number; nomeUsuario: string }[],
   ): Map<number, string> {
-    return new Map(jogadores.map((j) => [j.id_jogador, j.nome_usuario]));
+    return new Map(jogadores.map((j) => [j.idJogador, j.nomeUsuario]));
   }
 
   // Verifica se ja existe alianca

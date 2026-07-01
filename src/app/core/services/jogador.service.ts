@@ -7,27 +7,21 @@ import { environment } from '../../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class JogadorService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = `${environment.supabaseUrl}/rest/v1/jogador`;
+  private readonly baseUrl = `${environment.apiUrl}/jogador`;
   private readonly headers = new HttpHeaders({
-    apikey: environment.supabaseKey,
-    Authorization: `Bearer ${environment.supabaseKey}`,
     'Content-Type': 'application/json',
   });
 
   getAll(): Observable<Jogador[]> {
-    return this.http.get<Jogador[]>(this.baseUrl, { headers: this.headers });
+    return this.http.get<Jogador[]>(`${this.baseUrl}/all`);
   }
 
   getTop10ByPontuacao(): Observable<Jogador[]> {
-    const url = `${this.baseUrl}?select=*&order=pontuacao.desc&limit=10`;
-    return this.http.get<Jogador[]>(url, { headers: this.headers });
+    return this.http.get<Jogador[]>(`${this.baseUrl}/top10`);
   }
 
   getById(idJogador: number): Observable<Jogador | null> {
-    const url = `${this.baseUrl}?select=*&id_jogador=eq.${idJogador}&limit=1`;
-    return this.http
-      .get<Jogador[]>(url, { headers: this.headers })
-      .pipe(map((jogadores) => jogadores[0] ?? null));
+    return this.http.get<Jogador>(`${this.baseUrl}/get/${idJogador}`);
   }
 
   getByIds(ids: number[]): Observable<Jogador[]> {
@@ -35,25 +29,16 @@ export class JogadorService {
       return of([]);
     }
 
-    const idList = ids.join(',');
-    const url = `${this.baseUrl}?select=*&id_jogador=in.(${idList})`;
-    return this.http.get<Jogador[]>(url, { headers: this.headers });
+    return this.getAll().pipe(
+      map((jogadores) => jogadores.filter((jogador) => ids.includes(jogador.idJogador))),
+    );
   }
 
   create(jogador: Partial<Jogador>): Observable<Jogador> {
-    // O cabeçalho 'Prefer: return=representation' força o Supabase a devolver a linha inserida
-    const headers = this.headers.set('Prefer', 'return=representation');
-    
-    return this.http
-      .post<Jogador[]>(this.baseUrl, jogador, { headers })
-      .pipe(map((jogadores) => jogadores[0]));
+    return this.http.post<Jogador>(`${this.baseUrl}/create`, jogador, { headers: this.headers });
   }
 
   getByNome(nome: string): Observable<Jogador[]> {
-    const url = `${this.baseUrl}?select=*&nome_usuario=ilike.*${nome}*`;
-
-    return this.http.get<Jogador[]>(url, {
-      headers: this.headers,
-    });
+    return this.http.get<Jogador[]>(`${this.baseUrl}/get/nome/${encodeURIComponent(nome.trim())}`);
   }
 }

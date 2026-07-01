@@ -25,7 +25,7 @@ import { TabOverviewComponent } from '../tab-overview/tab-overview';
 export class PlayerOverviewComponent {
   readonly isOwner = input(false);
   readonly player = input<Jogador | null>(null);
-  protected readonly playerId = computed(() => this.player()?.id_jogador ?? null);
+  protected readonly playerId = computed(() => this.player()?.idJogador ?? null);
   protected readonly activeTab = signal<
     'overview' | 'characters' | 'battles' | 'missions' | 'allies'
   >('overview');

@@ -102,12 +102,12 @@ export class FormCharacterComponent {
     }
 
     const novoPersonagem = {
-      nome_personagem: this.nome(),
+      nomePersonagem: this.nome(),
       fk_id_jogador,
       fk_id_classe: Number(this.classeId()),
       raca: this.racaSelecionada(),
       descricao: this.descricaoText(),
-      arma_principal: this.arma(),
+      armaPrincipal: this.arma(),
       habilidades: this.habilidadesText(),
     } as Personagem;
 
@@ -132,8 +132,8 @@ export class FormCharacterComponent {
     }
 
     try {
-      const parsed = JSON.parse(raw) as { id_jogador?: number } | null;
-      return typeof parsed?.id_jogador === 'number' ? parsed.id_jogador : null;
+      const parsed = JSON.parse(raw) as { idJogador?: number } | null;
+      return typeof parsed?.idJogador === 'number' ? parsed.idJogador : null;
     } catch {
       return null;
     }

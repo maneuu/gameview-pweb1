@@ -1,6 +1,6 @@
 export interface Jogador {
-  id_jogador: number;
-  nome_usuario: string;
+  idJogador: number;
+  nomeUsuario: string;
   email: string;
   senha: string;
   nivel: number;

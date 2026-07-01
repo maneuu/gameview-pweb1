@@ -1,5 +1,5 @@
 export interface Classe {
-  id_classe: number;
-  nome_classe: string;
+  idClasse: number;
+  nomeClasse: string;
   tipo: string;
 }
